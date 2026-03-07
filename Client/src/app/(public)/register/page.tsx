@@ -6,6 +6,7 @@ import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 import { notify } from "@/utils/notifications";
 import { sendWhatsApp, buildRegistrationMessage } from "@/utils/whatsapp";
+import Image from "next/image";
 
 interface FormData {
     companyName: string;
@@ -96,7 +97,7 @@ export default function RegisterPage() {
                         <div>
                             <div className="mb-8">
                                 <div className="flex items-center gap-2.5 mb-6">
-                                    <div className="w-[38px] h-[38px] rounded-[10px] bg-white/20 flex items-center justify-center text-[1.2rem]">🖨️</div>
+                                <Image src={'/logo.jpeg'} alt="this is logo" width={52} height={52}/>
                                     <div>
                                         <div className="text-white text-[0.9rem] font-extrabold tracking-[0.05em]">MANAKAMANA</div>
                                         <div className="text-white/[0.65] text-[0.6rem] tracking-[0.15em]">PRINTING PRESS</div>
