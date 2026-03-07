@@ -5,8 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
-import { notify } from "@/utils/notifications";
-import { SERVICES } from "@/constants";
+import { useAuthStore } from "@/store/authStore";
 
 const heroSlides = [
   {
@@ -14,18 +13,27 @@ const heroSlides = [
     title: "MANAKAMANA\nPRINTING PRESS",
     subtitle:
       "We're Rededicated for development of printing Industry through Innovation and excellence.",
+    // Deep royal blue gradient like the design reference
+    background:
+      "linear-gradient(135deg, #0b1f4b 0%, #123c97 30%, #1b63e0 60%, #0f172a 100%)",
   },
   {
     label: "PREMIUM QUALITY",
     title: "B2B PRINTING\nSOLUTIONS",
     subtitle:
       "From visiting cards to garment tags — all your corporate printing needs under one roof.",
+    // Slightly lighter blue with a hint of violet
+    background:
+      "linear-gradient(135deg, #0f172a 0%, #1d3fb8 35%, #2563eb 70%, #38bdf8 100%)",
   },
   {
     label: "WHOLESALE RATES",
     title: "PRINT AT\nBEST PRICES",
     subtitle:
       "Get the best prices in the industry directly from the source with guaranteed quality.",
+    // Blue-to-cyan variant for price-focused messaging
+    background:
+      "linear-gradient(135deg, #020617 0%, #1e3a8a 25%, #0369a1 60%, #0ea5e9 100%)",
   },
 ];
 
@@ -57,6 +65,10 @@ const howItWorks = [
 ];
 
 export default function HomePage() {
+
+  //zustand store
+  const {isAuthenticated} = useAuthStore()
+
   const router = useRouter();
   const [activeSlide, setActiveSlide] = useState(0);
 
@@ -72,7 +84,10 @@ export default function HomePage() {
       <Navbar />
 
       {/* ─── Hero Section ─── */}
-      <section className="gradient-hero relative overflow-hidden min-h-[350px] md:min-h-[480px]">
+      <section
+        className="relative overflow-hidden min-h-[350px] md:min-h-[480px]"
+        style={{ background: heroSlides[activeSlide].background }}
+      >
         {/* Decorative shapes */}
         <div className="absolute -top-16 -right-16 w-[180px] h-[180px] sm:w-[260px] sm:h-[260px] md:w-[300px] md:h-[300px] bg-white/5 rounded-full pointer-events-none" />
         <div className="absolute -bottom-20 left-1/2 -translate-x-1/2 md:left-[30%] md:translate-x-0 w-[260px] h-[260px] sm:w-[340px] sm:h-[340px] md:w-[400px] md:h-[400px] bg-white/[0.04] rounded-full pointer-events-none" />
@@ -250,7 +265,8 @@ export default function HomePage() {
       {/* ─── CTA Section ─── */}
       <section
         id="contact"
-        className="gradient-card py-10 sm:py-16 px-3 sm:px-6 text-center"
+        className="py-10 sm:py-16 px-3 sm:px-6 text-center"
+        style={{ background: heroSlides[0].background }}
       >
         <div className="max-w-full sm:max-w-[600px] mx-auto">
           <h2 className="text-white text-[1.35rem] sm:text-[1.7rem] md:text-[2rem] font-black mb-3 sm:mb-4">
@@ -261,15 +277,23 @@ export default function HomePage() {
             printing rates, free templates, and dedicated support.
           </p>
           <div className="flex gap-2 sm:gap-4 justify-center flex-wrap">
-            <Link
-              href="/register"
-              className="btn-white-outline bg-white/20"
-            >
-              Register Now
-            </Link>
-            <Link href="/login" className="btn-white-outline">
-              Login
-            </Link>
+              {isAuthenticated ? (
+                <Link href="/services" className="btn-white-outline bg-white/20">
+                  Our Services
+                </Link>
+              ) : (
+                <>
+                  <Link
+                    href="/register"
+                    className="btn-white-outline bg-white/20"
+                  >
+                    Register Now
+                  </Link>
+                  <Link href="/login" className="btn-white-outline">
+                    Login
+                  </Link>
+                </>
+              )}
           </div>
         </div>
       </section>
