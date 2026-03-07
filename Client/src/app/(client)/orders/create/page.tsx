@@ -298,13 +298,6 @@ function CreateOrderForm() {
                                 </h3>
                                 <div className="space-y-4">
                                     <div className="flex gap-3 items-start">
-                                        <span className="text-[#1a56db] text-lg">🌍</span>
-                                        <div>
-                                            <div className="text-sm font-bold text-slate-900">Pan-India Reach</div>
-                                            <div className="text-xs text-slate-500 leading-snug">Fast & Reliable service across all major metro cities.</div>
-                                        </div>
-                                    </div>
-                                    <div className="flex gap-3 items-start">
                                         <span className="text-[#1a56db] text-lg">🎯</span>
                                         <div>
                                             <div className="text-sm font-bold text-slate-900">Precision Engraving</div>

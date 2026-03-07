@@ -6,6 +6,7 @@ import { useAuthStore } from "@/store/authStore";
 import { useState } from "react";
 import { notify } from "@/utils/notifications";
 import { AnimatePresence, easeInOut, motion } from 'motion/react'
+import Image from "next/image";
 
 export default function Navbar() {
     const { isAuthenticated, logout } = useAuthStore();
@@ -35,11 +36,7 @@ export default function Navbar() {
                     href="/"
                     className="flex items-center gap-2.5 no-underline"
                 >
-                    <div
-                        className="w-9 h-9 rounded-[10px] bg-gradient-to-br from-[#1a56db] to-[#2563eb] flex items-center justify-center text-white text-lg font-black tracking-tight shadow-[0_2px_8px_rgba(26,86,219,0.3)]"
-                    >
-                        🖨️
-                    </div>
+                    <Image src={'/logo.jpeg'} alt="this is logo" width={52} height={52}/>
                     <div>
                         <div className="text-base font-extrabold tracking-wider text-[color:var(--primary)] leading-[1]">
                             MANAKAMANA

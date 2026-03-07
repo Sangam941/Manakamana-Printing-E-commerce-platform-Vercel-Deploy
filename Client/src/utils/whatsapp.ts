@@ -1,4 +1,4 @@
-export const ADMIN_PHONE = "9820241434";
+export const ADMIN_PHONE = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER
 
 export const sendWhatsApp = (message: string) => {
     const encodedMessage = encodeURIComponent(message);
