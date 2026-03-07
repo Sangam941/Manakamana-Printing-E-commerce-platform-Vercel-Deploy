@@ -2,13 +2,13 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useAuth } from "@/hooks/useAuth";
+import { useAuthStore } from "@/store/authStore";
 import { useState } from "react";
 import { notify } from "@/utils/notifications";
 import { AnimatePresence, easeInOut, motion } from 'motion/react'
 
 export default function Navbar() {
-    const { isAuthenticated, logout } = useAuth();
+    const { isAuthenticated, logout } = useAuthStore();
     const pathname = usePathname();
     const router = useRouter();
     const [menuOpen, setMenuOpen] = useState(false);
@@ -75,9 +75,6 @@ export default function Navbar() {
 
                 {/* Actions */}
                 <div className="flex items-center gap-3">
-                    <button className="dark-toggle" title="Toggle dark mode">
-                        🌙
-                    </button>
                     {isAuthenticated ? (
                         <div className="flex gap-2 items-center">
 

@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
-import { useAuth } from "@/hooks/useAuth";
+import { useAuthStore } from "@/store/authStore";
 import { notify } from "@/utils/notifications";
 
 const features = [
@@ -20,7 +20,7 @@ export default function LoginPage() {
     const [password, setPassword] = useState("");
     const [showPassword, setShowPassword] = useState(false);
     const [loading, setLoading] = useState(false);
-    const { login } = useAuth();
+    const { login } = useAuthStore();
     const router = useRouter();
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -35,7 +35,7 @@ export default function LoginPage() {
         setLoading(false);
         if (success) {
             notify.success("Welcome back! Redirecting to dashboard…");
-            setTimeout(() => router.push("/dashboard"), 800);
+            router.push('/')
         } else {
             notify.error("Invalid Client ID or password. Try CL102 / manakamana123");
         }

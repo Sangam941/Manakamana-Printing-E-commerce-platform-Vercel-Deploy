@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { TEMPLATES, TEMPLATE_CATEGORIES } from "@/constants";
-import { useAuth } from "@/hooks/useAuth";
+import { useAuthStore } from "@/store/authStore";
 import { notify } from "@/utils/notifications";
 import { sendWhatsApp, buildTemplateMessage, buildCustomDesignMessage } from "@/utils/whatsapp";
 import { SERVICES } from "@/constants";
@@ -16,7 +16,7 @@ const categoryIcons: Record<string, string> = {
 };
 
 export default function TemplatesPage() {
-    const { user } = useAuth();
+    const { user } = useAuthStore();
     const [activeCategory, setActiveCategory] = useState("All");
     const [customDesignType, setCustomDesignType] = useState("");
 

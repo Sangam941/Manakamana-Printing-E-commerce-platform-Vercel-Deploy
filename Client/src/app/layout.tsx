@@ -1,7 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { AuthProvider } from "@/hooks/useAuth";
+import AuthInitializer from "@/components/layout/AuthInitializer";
 import { Toaster } from "react-hot-toast";
+import FloatingWhatsApp from "@/utils/FloatingWhatsApp";
 
 export const metadata: Metadata = {
   title: "Manakamana Printing Press – B2B Printing Platform",
@@ -19,10 +20,11 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </head>
       <body>
-        <AuthProvider>
+        <FloatingWhatsApp/>
+        <AuthInitializer>
           {children}
           <Toaster
-            position="top-right"
+            // position="top-right"
             toastOptions={{
               style: {
                 fontFamily: "'Inter', sans-serif",
@@ -33,7 +35,7 @@ export default function RootLayout({
               duration: 3500,
             }}
           />
-        </AuthProvider>
+        </AuthInitializer>
       </body>
     </html>
   );
