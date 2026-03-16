@@ -99,8 +99,8 @@ export default function RegisterPage() {
                                 <div className="flex items-center gap-2.5 mb-6">
                                 <Image src={'/logo.jpeg'} alt="this is logo" width={52} height={52}/>
                                     <div>
-                                      <div className="text-white text-[0.9rem] font-extrabold tracking-[0.05em]">MANAKAMANA</div>
-                                        <div className="text-white/[0.65] text-[0.6rem] tracking-[0.15em]">PRINTING PRESS</div>
+                                      <div className="text-white text-[0.9rem] font-extrabold tracking-[0.05em]">NEW MANAKAMANA</div>
+                                        <div className="text-white/[0.65] text-[0.6rem] tracking-[0.15em]">PRINTERS</div>
                                     </div>
                                 </div>
                                 <h2 className="text-white text-[1.18rem] sm:text-[1.5rem] font-extrabold mb-2">Join Our B2B Network</h2>

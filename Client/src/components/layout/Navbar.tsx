@@ -37,12 +37,12 @@ export default function Navbar() {
                     className="flex items-center gap-2.5 no-underline"
                 >
                     <Image src={'/logo.jpeg'} alt="this is logo" width={52} height={52}/>
-                    <div>
+                    <div className="max-sm:hidden">
                         <div className="text-base font-extrabold tracking-wider text-[color:var(--primary)] leading-[1]">
-                            MANAKAMANA
+                            NEW MANAKAMANA
                         </div>
                         <div className="text-[0.55rem] font-medium tracking-widest uppercase text-[color:var(--text-muted)]">
-                            Printing Press
+                            Printers
                         </div>
                     </div>
                 </Link>

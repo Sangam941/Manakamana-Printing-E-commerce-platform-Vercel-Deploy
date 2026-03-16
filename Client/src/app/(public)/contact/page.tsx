@@ -1,5 +1,7 @@
 "use client";
 
+import Footer from "@/components/layout/Footer";
+import Navbar from "@/components/layout/Navbar";
 import { useState } from "react";
 
 export default function ContactPage() {
@@ -26,11 +28,12 @@ export default function ContactPage() {
 
   return (
     <div className="min-h-screen bg-slate-50">
+      <Navbar/>
       <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8 py-10 lg:py-14">
         {/* Header */}
         <div className="mb-10 text-center lg:text-left flex flex-col items-center">
           <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">
-            Get in touch with Manakamana Printing Press
+            Get in touch with New Manakamana Printers
           </h1>
           <div className="divider mt-1 h-[4px] rounded-full w-52 bg-blue-500 my-4" />
           <p className="mt-3 text-center text-sm sm:text-base text-slate-500 max-w-2xl mx-auto lg:mx-0">
@@ -201,7 +204,7 @@ export default function ContactPage() {
               <div className="aspect-[4/3] w-full">
                 
                 <iframe 
-                title="Manakamana Printing Press Location"
+                title="New Manakamana Printers Location"
                 src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3925.1863626480344!2d83.46059080681277!3d27.703327986574763!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3996873276c92d51%3A0xd3c6675133d70696!2sTraffic%20chowk!5e0!3m2!1sen!2sus!4v1772899341438!5m2!1sen!2sus" 
                 className="w-full h-full border-0" 
                 loading="lazy" 
@@ -230,6 +233,7 @@ export default function ContactPage() {
           </div>
         </div>
       </div>
+      <Footer/>
     </div>
   );
 }
