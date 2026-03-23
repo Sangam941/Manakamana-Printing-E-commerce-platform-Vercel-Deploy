@@ -35,6 +35,34 @@ enum ApprovedDesignStatus {
   ARCHIVED
 }
 
+enum WalletTopupStatus {
+  PENDING_REVIEW
+  APPROVED
+  REJECTED
+}
+
+enum WalletTxnType {
+  CREDIT
+  DEBIT
+}
+
+enum WalletTxnSource {
+  TOPUP
+  ORDER
+  REFUND
+  ADJUSTMENT
+}
+
+enum PaymentMethod {
+  UPI
+  BANK_TRANSFER
+}
+
+enum NotificationRecipientRole {
+  CLIENT
+  ADMIN
+}
+
 // ADMIN USERS
 
 model AdminUser {
@@ -44,10 +72,12 @@ model AdminUser {
   password String // PLAIN TEXT STORED AS REQUESTED
   role     String @default("ADMIN")
 
-  reviewedSubmissions DesignSubmission[] @relation("ReviewedSubmissions")
-  approvedDesigns     ApprovedDesign[]   @relation("ApprovedDesigns")
-  archivedDesigns     ApprovedDesign[]   @relation("ArchivedDesigns")
-  auditLogs           AuditLog[]
+  reviewedSubmissions  DesignSubmission[]    @relation("ReviewedSubmissions")
+  approvedDesigns      ApprovedDesign[]      @relation("ApprovedDesigns")
+  archivedDesigns      ApprovedDesign[]      @relation("ArchivedDesigns")
+  auditLogs            AuditLog[]
+  companyPaymentDetails CompanyPaymentDetail[]
+  walletTopupReviews   WalletTopupRequest[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -95,6 +125,9 @@ model Client {
   designSubmissions DesignSubmission[]
   approvedDesigns   ApprovedDesign[]
   notifications     Notification[]
+  walletAccount     WalletAccount?
+  walletTopupRequests WalletTopupRequest[]
+  walletTransactions WalletTransaction[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -213,14 +246,24 @@ model ApprovedDesign {
 // NOTIFICATIONS AND AUDIT LOGS
 
 model Notification {
-  id        String   @id @default(uuid())
-  clientId  String
-  client    Client   @relation(fields: [clientId], references: [id])
-  type      String
-  message   String
-  isRead    Boolean  @default(false)
-  createdAt DateTime @default(now())
+  id            String                    @id @default(uuid())
+  recipientRole NotificationRecipientRole
+  recipientId   String
+  type          String
+  title         String
+  message       String
+  referenceId   String?
+  isRead        Boolean                   @default(false)
+  createdAt     DateTime                  @default(now())
+  readAt        DateTime?
 
+  // Legacy relation kept for backward compatibility
+  clientId      String?
+  client        Client?  @relation(fields: [clientId], references: [id])
+
+  @@index([recipientRole, recipientId])
+  @@index([isRead])
+  @@index([createdAt])
   @@map("notifications")
 }
 
@@ -255,11 +298,127 @@ model Order {
   designId String?
   design   ApprovedDesign? @relation(fields: [designId], references: [id])
 
-  status OrderStatus @default(ORDER_PLACED)
+  status        OrderStatus @default(ORDER_PLACED)
+  paymentStatus String      @default("unpaid") // unpaid | paid
+
+  walletTransactionId String? @unique
+  walletTransaction   WalletTransaction? @relation(fields: [walletTransactionId], references: [id])
+
+  totalAmount Decimal? @db.Decimal(12, 2)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@index([status])
   @@map("orders")
+}
+
+// WALLET SYSTEM
+
+model CompanyPaymentDetail {
+  id            String  @id @default(uuid())
+  companyName   String
+  bankName      String
+  accountName   String
+  accountNumber String
+  branch        String?
+  upiId         String?
+  qrImageUrl    String?
+  note          String?
+  isActive      Boolean @default(true)
+
+  createdById   String?
+  createdBy     AdminUser? @relation(fields: [createdById], references: [id])
+
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([isActive])
+  @@map("company_payment_details")
+}
+
+model WalletAccount {
+  id               String   @id @default(uuid())
+  clientId         String   @unique
+  currency         String   @default("NPR")
+  availableBalance Decimal  @default(0.00) @db.Decimal(12, 2)
+
+  client           Client   @relation(fields: [clientId], references: [id])
+  transactions     WalletTransaction[]
+  topupRequests    WalletTopupRequest[]
+
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@index([clientId])
+  @@map("wallet_accounts")
+}
+
+model WalletTopupRequest {
+  id                String             @id @default(uuid())
+  walletId          String
+  clientId          String
+  submittedAmount   Decimal            @db.Decimal(12, 2)
+  approvedAmount    Decimal?           @db.Decimal(12, 2)
+  paymentMethod     PaymentMethod
+  transferReference String?
+  note              String?
+  proofFilePath     String
+  proofFileName     String?
+  proofMimeType     String?
+  proofFileSize     Int?
+  status            WalletTopupStatus  @default(PENDING_REVIEW)
+
+  rejectionReason   String?
+  rejectionCode     String?
+
+  reviewedById      String?
+  reviewedAt        DateTime?
+
+  wallet            WalletAccount      @relation(fields: [walletId], references: [id])
+  client            Client             @relation(fields: [clientId], references: [id])
+  reviewedBy        AdminUser?         @relation(fields: [reviewedById], references: [id])
+
+  walletTransaction WalletTransaction?
+
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+
+  @@index([walletId])
+  @@index([clientId])
+  @@index([status])
+  @@index([createdAt])
+  @@map("wallet_topup_requests")
+}
+
+model WalletTransaction {
+  id             String           @id @default(uuid())
+  walletId       String
+  clientId       String
+  topupRequestId String?          @unique
+
+  type           WalletTxnType
+  source         WalletTxnSource
+  sourceId       String
+
+  amount         Decimal          @db.Decimal(12, 2)
+  currency       String           @default("NPR")
+  balanceBefore  Decimal          @db.Decimal(12, 2)
+  balanceAfter   Decimal          @db.Decimal(12, 2)
+  description    String?
+
+  wallet         WalletAccount    @relation(fields: [walletId], references: [id])
+  client         Client           @relation(fields: [clientId], references: [id])
+  topupRequest   WalletTopupRequest? @relation(fields: [topupRequestId], references: [id])
+  order          Order?
+
+  createdAt      DateTime         @default(now())
+
+  @@index([walletId])
+  @@index([clientId])
+  @@index([type])
+  @@index([source])
+  @@index([sourceId])
+  @@index([createdAt])
+  @@map("wallet_transactions")
 }

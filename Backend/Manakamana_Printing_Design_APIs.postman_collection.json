@@ -16,13 +16,25 @@
               "request": {
                 "method": "POST",
                 "header": [
-                  { "key": "Content-Type", "value": "application/json" }
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
                 ],
                 "body": {
                   "mode": "raw",
                   "raw": "{\n  \"email\": \"client@example.com\",\n  \"password\": \"password123\"\n}"
                 },
-                "url": { "raw": "{{baseUrl}}/auth/login", "host": ["{{baseUrl}}"], "path": ["auth", "login"] }
+                "url": {
+                  "raw": "{{baseUrl}}/auth/login",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "auth",
+                    "login"
+                  ]
+                }
               }
             },
             {
@@ -30,7 +42,16 @@
               "request": {
                 "method": "POST",
                 "header": [],
-                "url": { "raw": "{{baseUrl}}/auth/logout", "host": ["{{baseUrl}}"], "path": ["auth", "logout"] }
+                "url": {
+                  "raw": "{{baseUrl}}/auth/logout",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "auth",
+                    "logout"
+                  ]
+                }
               }
             },
             {
@@ -38,7 +59,16 @@
               "request": {
                 "method": "GET",
                 "header": [],
-                "url": { "raw": "{{baseUrl}}/auth/me", "host": ["{{baseUrl}}"], "path": ["auth", "me"] }
+                "url": {
+                  "raw": "{{baseUrl}}/auth/me",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "auth",
+                    "me"
+                  ]
+                }
               }
             }
           ]
@@ -51,13 +81,26 @@
               "request": {
                 "method": "POST",
                 "header": [
-                  { "key": "Content-Type", "value": "application/json" }
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
                 ],
                 "body": {
                   "mode": "raw",
-                  "raw": "{\n  \"email\": \"admin@manakamanaprinting.com\",\n  \"password\": \"adminpass123\"\n}"
+                  "raw": "{\n  \"email\": \"admin@gmail.com\",\n  \"password\": \"admin\"\n}"
                 },
-                "url": { "raw": "{{baseUrl}}/admin/auth/login", "host": ["{{baseUrl}}"], "path": ["admin", "auth", "login"] }
+                "url": {
+                  "raw": "{{baseUrl}}/admin/auth/login",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "auth",
+                    "login"
+                  ]
+                }
               }
             },
             {
@@ -65,7 +108,17 @@
               "request": {
                 "method": "POST",
                 "header": [],
-                "url": { "raw": "{{baseUrl}}/admin/auth/logout", "host": ["{{baseUrl}}"], "path": ["admin", "auth", "logout"] }
+                "url": {
+                  "raw": "{{baseUrl}}/admin/auth/logout",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "auth",
+                    "logout"
+                  ]
+                }
               }
             },
             {
@@ -73,7 +126,17 @@
               "request": {
                 "method": "GET",
                 "header": [],
-                "url": { "raw": "{{baseUrl}}/admin/auth/me", "host": ["{{baseUrl}}"], "path": ["admin", "auth", "me"] }
+                "url": {
+                  "raw": "{{baseUrl}}/admin/auth/me",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "auth",
+                    "me"
+                  ]
+                }
               }
             }
           ]
@@ -88,13 +151,24 @@
           "request": {
             "method": "POST",
             "header": [
-              { "key": "Content-Type", "value": "application/json" }
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
             ],
             "body": {
               "mode": "raw",
               "raw": "{\n  \"business_name\": \"My Prints Co.\",\n  \"business_address\": \"Kathmandu, Nepal\",\n  \"owner_name\": \"John Doe\",\n  \"phone_number\": \"9800000000\",\n  \"email\": \"info@myprints.com\"\n}"
             },
-            "url": { "raw": "{{baseUrl}}/register-request", "host": ["{{baseUrl}}"], "path": ["register-request"] }
+            "url": {
+              "raw": "{{baseUrl}}/register-request",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "register-request"
+              ]
+            }
           }
         }
       ]
@@ -110,7 +184,16 @@
               "request": {
                 "method": "GET",
                 "header": [],
-                "url": { "raw": "{{baseUrl}}/user/profile", "host": ["{{baseUrl}}"], "path": ["user", "profile"] }
+                "url": {
+                  "raw": "{{baseUrl}}/user/profile",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "user",
+                    "profile"
+                  ]
+                }
               }
             },
             {
@@ -118,13 +201,25 @@
               "request": {
                 "method": "PATCH",
                 "header": [
-                  { "key": "Content-Type", "value": "application/json" }
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
                 ],
                 "body": {
                   "mode": "raw",
                   "raw": "{\n  \"business_name\": \"Jane Doe Prints\"\n}"
                 },
-                "url": { "raw": "{{baseUrl}}/user/profile", "host": ["{{baseUrl}}"], "path": ["user", "profile"] }
+                "url": {
+                  "raw": "{{baseUrl}}/user/profile",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "user",
+                    "profile"
+                  ]
+                }
               }
             }
           ]
@@ -137,7 +232,16 @@
               "request": {
                 "method": "GET",
                 "header": [],
-                "url": { "raw": "{{baseUrl}}/templates/categories", "host": ["{{baseUrl}}"], "path": ["templates", "categories"] }
+                "url": {
+                  "raw": "{{baseUrl}}/templates/categories",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "templates",
+                    "categories"
+                  ]
+                }
               }
             },
             {
@@ -145,7 +249,15 @@
               "request": {
                 "method": "GET",
                 "header": [],
-                "url": { "raw": "{{baseUrl}}/templates", "host": ["{{baseUrl}}"], "path": ["templates"] }
+                "url": {
+                  "raw": "{{baseUrl}}/templates",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "templates"
+                  ]
+                }
               }
             },
             {
@@ -155,9 +267,19 @@
                 "header": [],
                 "url": {
                   "raw": "{{baseUrl}}/templates/:templateId",
-                  "host": ["{{baseUrl}}"],
-                  "path": ["templates", ":templateId"],
-                  "variable": [{ "key": "templateId", "value": "uuid" }]
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "templates",
+                    ":templateId"
+                  ],
+                  "variable": [
+                    {
+                      "key": "templateId",
+                      "value": "uuid"
+                    }
+                  ]
                 }
               }
             }
@@ -174,12 +296,31 @@
                 "body": {
                   "mode": "formdata",
                   "formdata": [
-                    { "key": "file", "type": "file" },
-                    { "key": "templateId", "value": "", "type": "text" },
-                    { "key": "title", "value": "My Design", "type": "text" }
+                    {
+                      "key": "file",
+                      "type": "file"
+                    },
+                    {
+                      "key": "templateId",
+                      "value": "",
+                      "type": "text"
+                    },
+                    {
+                      "key": "title",
+                      "value": "My Design",
+                      "type": "text"
+                    }
                   ]
                 },
-                "url": { "raw": "{{baseUrl}}/design-submissions", "host": ["{{baseUrl}}"], "path": ["design-submissions"] }
+                "url": {
+                  "raw": "{{baseUrl}}/design-submissions",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "design-submissions"
+                  ]
+                }
               }
             },
             {
@@ -187,7 +328,16 @@
               "request": {
                 "method": "GET",
                 "header": [],
-                "url": { "raw": "{{baseUrl}}/design-submissions/my", "host": ["{{baseUrl}}"], "path": ["design-submissions", "my"] }
+                "url": {
+                  "raw": "{{baseUrl}}/design-submissions/my",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "design-submissions",
+                    "my"
+                  ]
+                }
               }
             },
             {
@@ -197,9 +347,20 @@
                 "header": [],
                 "url": {
                   "raw": "{{baseUrl}}/design-submissions/my/:submissionId",
-                  "host": ["{{baseUrl}}"],
-                  "path": ["design-submissions", "my", ":submissionId"],
-                  "variable": [{ "key": "submissionId", "value": "uuid" }]
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "design-submissions",
+                    "my",
+                    ":submissionId"
+                  ],
+                  "variable": [
+                    {
+                      "key": "submissionId",
+                      "value": "uuid"
+                    }
+                  ]
                 }
               }
             }
@@ -215,9 +376,19 @@
                 "header": [],
                 "url": {
                   "raw": "{{baseUrl}}/my-designs/:designId",
-                  "host": ["{{baseUrl}}"],
-                  "path": ["my-designs", ":designId"],
-                  "variable": [{ "key": "designId", "value": "DSN-xxx" }]
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "my-designs",
+                    ":designId"
+                  ],
+                  "variable": [
+                    {
+                      "key": "designId",
+                      "value": "DSN-xxx"
+                    }
+                  ]
                 }
               }
             },
@@ -226,13 +397,25 @@
               "request": {
                 "method": "POST",
                 "header": [
-                  { "key": "Content-Type", "value": "application/json" }
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
                 ],
                 "body": {
                   "mode": "raw",
                   "raw": "{\n  \"designId\": \"DSN-2026-000001\"\n}"
                 },
-                "url": { "raw": "{{baseUrl}}/designs/verify", "host": ["{{baseUrl}}"], "path": ["designs", "verify"] }
+                "url": {
+                  "raw": "{{baseUrl}}/designs/verify",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "designs",
+                    "verify"
+                  ]
+                }
               }
             }
           ]
@@ -245,13 +428,24 @@
               "request": {
                 "method": "POST",
                 "header": [
-                  { "key": "Content-Type", "value": "application/json" }
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
                 ],
                 "body": {
                   "mode": "raw",
                   "raw": "{\n  \"orderName\": \"Business Card Printing\",\n  \"serviceId\": \"uuid\",\n  \"quantity\": 100,\n  \"designId\": \"uuid\"\n}"
                 },
-                "url": { "raw": "{{baseUrl}}/orders", "host": ["{{baseUrl}}"], "path": ["orders"] }
+                "url": {
+                  "raw": "{{baseUrl}}/orders",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "orders"
+                  ]
+                }
               }
             },
             {
@@ -259,7 +453,16 @@
               "request": {
                 "method": "GET",
                 "header": [],
-                "url": { "raw": "{{baseUrl}}/orders/my", "host": ["{{baseUrl}}"], "path": ["orders", "my"] }
+                "url": {
+                  "raw": "{{baseUrl}}/orders/my",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "orders",
+                    "my"
+                  ]
+                }
               }
             }
           ]
@@ -277,7 +480,16 @@
               "request": {
                 "method": "GET",
                 "header": [],
-                "url": { "raw": "{{baseUrl}}/admin/registration-requests", "host": ["{{baseUrl}}"], "path": ["admin", "registration-requests"] }
+                "url": {
+                  "raw": "{{baseUrl}}/admin/registration-requests",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "registration-requests"
+                  ]
+                }
               }
             },
             {
@@ -287,9 +499,20 @@
                 "header": [],
                 "url": {
                   "raw": "{{baseUrl}}/admin/registration-requests/:request_id",
-                  "host": ["{{baseUrl}}"],
-                  "path": ["admin", "registration-requests", ":request_id"],
-                  "variable": [{ "key": "request_id", "value": "uuid" }]
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "registration-requests",
+                    ":request_id"
+                  ],
+                  "variable": [
+                    {
+                      "key": "request_id",
+                      "value": "uuid"
+                    }
+                  ]
                 }
               }
             },
@@ -304,9 +527,21 @@
                 },
                 "url": {
                   "raw": "{{baseUrl}}/admin/registration-requests/:request_id/approve",
-                  "host": ["{{baseUrl}}"],
-                  "path": ["admin", "registration-requests", ":request_id", "approve"],
-                  "variable": [{ "key": "request_id", "value": "uuid" }]
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "registration-requests",
+                    ":request_id",
+                    "approve"
+                  ],
+                  "variable": [
+                    {
+                      "key": "request_id",
+                      "value": "uuid"
+                    }
+                  ]
                 }
               }
             },
@@ -315,7 +550,10 @@
               "request": {
                 "method": "PATCH",
                 "header": [
-                  { "key": "Content-Type", "value": "application/json" }
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
                 ],
                 "body": {
                   "mode": "raw",
@@ -323,9 +561,21 @@
                 },
                 "url": {
                   "raw": "{{baseUrl}}/admin/registration-requests/:request_id/reject",
-                  "host": ["{{baseUrl}}"],
-                  "path": ["admin", "registration-requests", ":request_id", "reject"],
-                  "variable": [{ "key": "request_id", "value": "uuid" }]
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "registration-requests",
+                    ":request_id",
+                    "reject"
+                  ],
+                  "variable": [
+                    {
+                      "key": "request_id",
+                      "value": "uuid"
+                    }
+                  ]
                 }
               }
             }
@@ -339,7 +589,16 @@
               "request": {
                 "method": "GET",
                 "header": [],
-                "url": { "raw": "{{baseUrl}}/admin/clients", "host": ["{{baseUrl}}"], "path": ["admin", "clients"] }
+                "url": {
+                  "raw": "{{baseUrl}}/admin/clients",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "clients"
+                  ]
+                }
               }
             },
             {
@@ -349,9 +608,20 @@
                 "header": [],
                 "url": {
                   "raw": "{{baseUrl}}/admin/clients/:id",
-                  "host": ["{{baseUrl}}"],
-                  "path": ["admin", "clients", ":id"],
-                  "variable": [{ "key": "id", "value": "uuid" }]
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "clients",
+                    ":id"
+                  ],
+                  "variable": [
+                    {
+                      "key": "id",
+                      "value": "uuid"
+                    }
+                  ]
                 }
               }
             }
@@ -365,7 +635,16 @@
               "request": {
                 "method": "GET",
                 "header": [],
-                "url": { "raw": "{{baseUrl}}/admin/design-submissions", "host": ["{{baseUrl}}"], "path": ["admin", "design-submissions"] }
+                "url": {
+                  "raw": "{{baseUrl}}/admin/design-submissions",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "design-submissions"
+                  ]
+                }
               }
             },
             {
@@ -375,9 +654,20 @@
                 "header": [],
                 "url": {
                   "raw": "{{baseUrl}}/admin/design-submissions/:submissionId",
-                  "host": ["{{baseUrl}}"],
-                  "path": ["admin", "design-submissions", ":submissionId"],
-                  "variable": [{ "key": "submissionId", "value": "uuid" }]
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "design-submissions",
+                    ":submissionId"
+                  ],
+                  "variable": [
+                    {
+                      "key": "submissionId",
+                      "value": "uuid"
+                    }
+                  ]
                 }
               }
             },
@@ -386,7 +676,10 @@
               "request": {
                 "method": "POST",
                 "header": [
-                  { "key": "Content-Type", "value": "application/json" }
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
                 ],
                 "body": {
                   "mode": "raw",
@@ -394,9 +687,21 @@
                 },
                 "url": {
                   "raw": "{{baseUrl}}/admin/design-submissions/:submissionId/approve",
-                  "host": ["{{baseUrl}}"],
-                  "path": ["admin", "design-submissions", ":submissionId", "approve"],
-                  "variable": [{ "key": "submissionId", "value": "uuid" }]
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "design-submissions",
+                    ":submissionId",
+                    "approve"
+                  ],
+                  "variable": [
+                    {
+                      "key": "submissionId",
+                      "value": "uuid"
+                    }
+                  ]
                 }
               }
             },
@@ -405,7 +710,10 @@
               "request": {
                 "method": "PATCH",
                 "header": [
-                  { "key": "Content-Type", "value": "application/json" }
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
                 ],
                 "body": {
                   "mode": "raw",
@@ -413,9 +721,21 @@
                 },
                 "url": {
                   "raw": "{{baseUrl}}/admin/design-submissions/:submissionId/reject",
-                  "host": ["{{baseUrl}}"],
-                  "path": ["admin", "design-submissions", ":submissionId", "reject"],
-                  "variable": [{ "key": "submissionId", "value": "uuid" }]
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "design-submissions",
+                    ":submissionId",
+                    "reject"
+                  ],
+                  "variable": [
+                    {
+                      "key": "submissionId",
+                      "value": "uuid"
+                    }
+                  ]
                 }
               }
             }
@@ -429,7 +749,16 @@
               "request": {
                 "method": "GET",
                 "header": [],
-                "url": { "raw": "{{baseUrl}}/admin/designs", "host": ["{{baseUrl}}"], "path": ["admin", "designs"] }
+                "url": {
+                  "raw": "{{baseUrl}}/admin/designs",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "designs"
+                  ]
+                }
               }
             },
             {
@@ -439,9 +768,20 @@
                 "header": [],
                 "url": {
                   "raw": "{{baseUrl}}/admin/designs/:designId",
-                  "host": ["{{baseUrl}}"],
-                  "path": ["admin", "designs", ":designId"],
-                  "variable": [{ "key": "designId", "value": "DSN-xxx" }]
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "designs",
+                    ":designId"
+                  ],
+                  "variable": [
+                    {
+                      "key": "designId",
+                      "value": "DSN-xxx"
+                    }
+                  ]
                 }
               }
             },
@@ -450,7 +790,10 @@
               "request": {
                 "method": "PATCH",
                 "header": [
-                  { "key": "Content-Type", "value": "application/json" }
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
                 ],
                 "body": {
                   "mode": "raw",
@@ -458,9 +801,21 @@
                 },
                 "url": {
                   "raw": "{{baseUrl}}/admin/designs/:designId/archive",
-                  "host": ["{{baseUrl}}"],
-                  "path": ["admin", "designs", ":designId", "archive"],
-                  "variable": [{ "key": "designId", "value": "DSN-xxx" }]
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "designs",
+                    ":designId",
+                    "archive"
+                  ],
+                  "variable": [
+                    {
+                      "key": "designId",
+                      "value": "DSN-xxx"
+                    }
+                  ]
                 }
               }
             }
@@ -474,13 +829,25 @@
               "request": {
                 "method": "POST",
                 "header": [
-                  { "key": "Content-Type", "value": "application/json" }
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
                 ],
                 "body": {
                   "mode": "raw",
                   "raw": "{\n  \"name\": \"Business Cards\",\n  \"slug\": \"business-cards\"\n}"
                 },
-                "url": { "raw": "{{baseUrl}}/templates/categories", "host": ["{{baseUrl}}"], "path": ["templates", "categories"] }
+                "url": {
+                  "raw": "{{baseUrl}}/templates/categories",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "templates",
+                    "categories"
+                  ]
+                }
               }
             },
             {
@@ -491,12 +858,32 @@
                 "body": {
                   "mode": "formdata",
                   "formdata": [
-                    { "key": "file", "type": "file" },
-                    { "key": "title", "value": "Corporate Card", "type": "text" },
-                    { "key": "categoryId", "value": "uuid", "type": "text" }
+                    {
+                      "key": "file",
+                      "type": "file"
+                    },
+                    {
+                      "key": "title",
+                      "value": "Corporate Card",
+                      "type": "text"
+                    },
+                    {
+                      "key": "categoryId",
+                      "value": "uuid",
+                      "type": "text"
+                    }
                   ]
                 },
-                "url": { "raw": "{{baseUrl}}/templates/", "host": ["{{baseUrl}}"], "path": ["templates", ""] }
+                "url": {
+                  "raw": "{{baseUrl}}/templates/",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "templates",
+                    ""
+                  ]
+                }
               }
             }
           ]
@@ -509,7 +896,10 @@
               "request": {
                 "method": "PATCH",
                 "header": [
-                  { "key": "Content-Type", "value": "application/json" }
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
                 ],
                 "body": {
                   "mode": "raw",
@@ -517,9 +907,361 @@
                 },
                 "url": {
                   "raw": "{{baseUrl}}/orders/:orderId/status",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "orders",
+                    ":orderId",
+                    "status"
+                  ],
+                  "variable": [
+                    {
+                      "key": "orderId",
+                      "value": "uuid"
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+    ,
+    {
+      "name": "Wallet",
+      "item": [
+        {
+          "name": "Client Wallet",
+          "item": [
+            {
+              "name": "Get Payment Details",
+              "request": {
+                "method": "GET",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{clientToken}}" }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/wallet/payment-details",
                   "host": ["{{baseUrl}}"],
-                  "path": ["orders", ":orderId", "status"],
+                  "path": ["wallet", "payment-details"]
+                }
+              }
+            },
+            {
+              "name": "Submit Top-up Request",
+              "request": {
+                "method": "POST",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{clientToken}}" }
+                ],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    { "key": "amount", "value": "1500", "type": "text" },
+                    { "key": "paymentMethod", "value": "UPI", "type": "text" },
+                    { "key": "transferReference", "value": "UPI-8899123", "type": "text" },
+                    { "key": "note", "value": "Top up for next order", "type": "text" },
+                    { "key": "proofFile", "type": "file", "src": "" }
+                  ]
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/wallet/topup-requests",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["wallet", "topup-requests"]
+                }
+              }
+            },
+            {
+              "name": "Get My Top-up Requests",
+              "request": {
+                "method": "GET",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{clientToken}}" }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/wallet/topup-requests?page=1&limit=10",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["wallet", "topup-requests"],
+                  "query": [
+                    { "key": "page", "value": "1" },
+                    { "key": "limit", "value": "10" }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Get Top-up Request Detail",
+              "request": {
+                "method": "GET",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{clientToken}}" }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/wallet/topup-requests/:requestId",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["wallet", "topup-requests", ":requestId"],
+                  "variable": [{ "key": "requestId", "value": "uuid" }]
+                }
+              }
+            },
+            {
+              "name": "Get Wallet Balance",
+              "request": {
+                "method": "GET",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{clientToken}}" }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/wallet/balance",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["wallet", "balance"]
+                }
+              }
+            },
+            {
+              "name": "Get Wallet Transactions",
+              "request": {
+                "method": "GET",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{clientToken}}" }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/wallet/transactions?page=1&limit=20",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["wallet", "transactions"],
+                  "query": [
+                    { "key": "page", "value": "1" },
+                    { "key": "limit", "value": "20" }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Validate Checkout Balance",
+              "request": {
+                "method": "POST",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{clientToken}}" },
+                  { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"orderAmount\": 500\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/wallet/validate-checkout",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["wallet", "validate-checkout"]
+                }
+              }
+            },
+            {
+              "name": "Confirm Wallet Payment for Order",
+              "request": {
+                "method": "POST",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{clientToken}}" },
+                  { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"useWallet\": true\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/wallet/orders/:orderId/confirm-wallet-payment",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["wallet", "orders", ":orderId", "confirm-wallet-payment"],
                   "variable": [{ "key": "orderId", "value": "uuid" }]
+                }
+              }
+            },
+            {
+              "name": "Get Client Notifications",
+              "request": {
+                "method": "GET",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{clientToken}}" }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/wallet/notifications",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["wallet", "notifications"]
+                }
+              }
+            },
+            {
+              "name": "Mark Notification as Read",
+              "request": {
+                "method": "PATCH",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{clientToken}}" }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/wallet/notifications/:notificationId/read",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["wallet", "notifications", ":notificationId", "read"],
+                  "variable": [{ "key": "notificationId", "value": "uuid" }]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Admin Wallet",
+          "item": [
+            {
+              "name": "Create Payment Details",
+              "request": {
+                "method": "POST",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{adminToken}}" },
+                  { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"companyName\": \"New Mankamana Printers\",\n  \"bankName\": \"NIC Asia Bank\",\n  \"accountName\": \"New Mankamana Printers\",\n  \"accountNumber\": \"1234567890\",\n  \"branch\": \"Kathmandu Branch\",\n  \"upiId\": \"newmankamana@upi\",\n  \"qrImageUrl\": \"\",\n  \"note\": \"After payment, upload screenshot in wallet section.\",\n  \"isActive\": true\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/admin/wallet/payment-details",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["admin", "wallet", "payment-details"]
+                }
+              }
+            },
+            {
+              "name": "Get All Top-up Requests",
+              "request": {
+                "method": "GET",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{adminToken}}" }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/admin/wallet/topup-requests?page=1&limit=20",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["admin", "wallet", "topup-requests"],
+                  "query": [
+                    { "key": "page", "value": "1" },
+                    { "key": "limit", "value": "20" }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Get Top-up Request Detail",
+              "request": {
+                "method": "GET",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{adminToken}}" }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/admin/wallet/topup-requests/:requestId",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["admin", "wallet", "topup-requests", ":requestId"],
+                  "variable": [{ "key": "requestId", "value": "uuid" }]
+                }
+              }
+            },
+            {
+              "name": "Approve Top-up Request",
+              "request": {
+                "method": "POST",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{adminToken}}" },
+                  { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"approvedAmount\": 1500,\n  \"note\": \"Verified with bank statement\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/admin/wallet/topup-requests/:requestId/approve",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["admin", "wallet", "topup-requests", ":requestId", "approve"],
+                  "variable": [{ "key": "requestId", "value": "uuid" }]
+                }
+              }
+            },
+            {
+              "name": "Reject Top-up Request",
+              "request": {
+                "method": "PATCH",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{adminToken}}" },
+                  { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"reason\": \"Payment proof does not match bank record\",\n  \"reasonCode\": \"PAYMENT_NOT_FOUND\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/admin/wallet/topup-requests/:requestId/reject",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["admin", "wallet", "topup-requests", ":requestId", "reject"],
+                  "variable": [{ "key": "requestId", "value": "uuid" }]
+                }
+              }
+            },
+            {
+              "name": "Get All Transactions",
+              "request": {
+                "method": "GET",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{adminToken}}" }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/admin/wallet/transactions?page=1&limit=20",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["admin", "wallet", "transactions"],
+                  "query": [
+                    { "key": "page", "value": "1" },
+                    { "key": "limit", "value": "20" }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Get Admin Notifications",
+              "request": {
+                "method": "GET",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{adminToken}}" }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/admin/wallet/notifications",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["admin", "wallet", "notifications"]
+                }
+              }
+            },
+            {
+              "name": "Mark Admin Notification as Read",
+              "request": {
+                "method": "PATCH",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{adminToken}}" }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/admin/wallet/notifications/:notificationId/read",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["admin", "wallet", "notifications", ":notificationId", "read"],
+                  "variable": [{ "key": "notificationId", "value": "uuid" }]
+                }
+              }
+            },
+            {
+              "name": "Get Client Wallet Summary",
+              "request": {
+                "method": "GET",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{adminToken}}" }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/admin/wallet/clients/:clientId",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["admin", "wallet", "clients", ":clientId"],
+                  "variable": [{ "key": "clientId", "value": "uuid" }]
                 }
               }
             }
