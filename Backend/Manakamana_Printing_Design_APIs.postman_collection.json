@@ -1653,8 +1653,239 @@
           ]
         }
       ]
+    },
+    {
+      "name": "ID Card Ordering System",
+      "item": [
+        {
+          "name": "Public Catalog",
+          "item": [
+            {
+              "name": "Get Categories",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/order-categories",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["order-categories"]
+                }
+              }
+            },
+            {
+              "name": "Get Products by Category",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/order-categories/:categoryId/products",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["order-categories", ":categoryId", "products"],
+                  "variable": [{"key": "categoryId", "value": "uuid"}]
+                }
+              }
+            },
+            {
+              "name": "Get Product Detail",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/order-products/:productId",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["order-products", ":productId"],
+                  "variable": [{"key": "productId", "value": "uuid"}]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Client Orders",
+          "item": [
+            {
+              "name": "Create ID Card Order",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {"key": "Authorization", "value": "Bearer {{clientToken}}"},
+                  {"key": "Content-Type", "value": "application/json"}
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"productId\": \"uuid\",\n  \"orderName\": \"School ID Cards\",\n  \"quantity\": 100,\n  \"printingSide\": \"double\",\n  \"photosLink\": \"https://drive.google.com/...\",\n  \"orientation\": \"portrait\",\n  \"stripeColor\": \"Blue\",\n  \"stripeText\": \"ABC School\",\n  \"remark\": \"Urgent\",\n  \"payFromWallet\": true\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/orders/id-cards",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["orders", "id-cards"]
+                }
+              }
+            },
+            {
+              "name": "My ID Card Orders",
+              "request": {
+                "method": "GET",
+                "header": [{"key": "Authorization", "value": "Bearer {{clientToken}}"}],
+                "url": {
+                  "raw": "{{baseUrl}}/orders/id-cards",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["orders", "id-cards"]
+                }
+              }
+            },
+            {
+              "name": "Get My Order Detail",
+              "request": {
+                "method": "GET",
+                "header": [{"key": "Authorization", "value": "Bearer {{clientToken}}"}],
+                "url": {
+                  "raw": "{{baseUrl}}/orders/id-cards/:orderId",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["orders", "id-cards", ":orderId"],
+                  "variable": [{"key": "orderId", "value": "uuid"}]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Admin Catalog",
+          "item": [
+            {
+              "name": "Create Category",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {"key": "Authorization", "value": "Bearer {{adminToken}}"},
+                  {"key": "Content-Type", "value": "application/json"}
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"ID Cards\",\n  \"slug\": \"id-cards\",\n  \"imageUrl\": \"\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/admin/order-categories",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["admin", "order-categories"]
+                }
+              }
+            },
+            {
+              "name": "Update Category",
+              "request": {
+                "method": "PATCH",
+                "header": [
+                  {"key": "Authorization", "value": "Bearer {{adminToken}}"},
+                  {"key": "Content-Type", "value": "application/json"}
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"isActive\": true\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/admin/order-categories/:categoryId",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["admin", "order-categories", ":categoryId"],
+                  "variable": [{"key": "categoryId", "value": "uuid"}]
+                }
+              }
+            },
+            {
+              "name": "Create Product",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {"key": "Authorization", "value": "Bearer {{adminToken}}"},
+                  {"key": "Content-Type", "value": "application/json"}
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"categoryId\": \"uuid\",\n  \"name\": \"PVC ID Card\",\n  \"code\": \"IDC-001\",\n  \"basePrice\": 25,\n  \"minQty\": 50,\n  \"discountPercent\": 10\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/admin/order-products",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["admin", "order-products"]
+                }
+              }
+            },
+            {
+              "name": "Update Product (Discount)",
+              "request": {
+                "method": "PATCH",
+                "header": [
+                  {"key": "Authorization", "value": "Bearer {{adminToken}}"},
+                  {"key": "Content-Type", "value": "application/json"}
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"discountPercent\": 15,\n  \"discountAmount\": 0\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/admin/order-products/:productId",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["admin", "order-products", ":productId"],
+                  "variable": [{"key": "productId", "value": "uuid"}]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Admin Order Management",
+          "item": [
+            {
+              "name": "List All ID Card Orders",
+              "request": {
+                "method": "GET",
+                "header": [{"key": "Authorization", "value": "Bearer {{adminToken}}"}],
+                "url": {
+                  "raw": "{{baseUrl}}/admin/orders/id-cards",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["admin", "orders", "id-cards"]
+                }
+              }
+            },
+            {
+              "name": "Get Order Detail",
+              "request": {
+                "method": "GET",
+                "header": [{"key": "Authorization", "value": "Bearer {{adminToken}}"}],
+                "url": {
+                  "raw": "{{baseUrl}}/admin/orders/id-cards/:orderId",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["admin", "orders", "id-cards", ":orderId"],
+                  "variable": [{"key": "orderId", "value": "uuid"}]
+                }
+              }
+            },
+            {
+              "name": "Update Order Status",
+              "request": {
+                "method": "PATCH",
+                "header": [
+                  {"key": "Authorization", "value": "Bearer {{adminToken}}"},
+                  {"key": "Content-Type", "value": "application/json"}
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"status\": \"confirmed\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/admin/orders/id-cards/:orderId/status",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["admin", "orders", "id-cards", ":orderId", "status"],
+                  "variable": [{"key": "orderId", "value": "uuid"}]
+                }
+              }
+            }
+          ]
+        }
+      ]
     }
   ],
+
   "variable": [
     {
       "key": "baseUrl",
