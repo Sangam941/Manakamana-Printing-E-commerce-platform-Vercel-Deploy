@@ -8,6 +8,7 @@ import { sendWhatsApp, buildCustomDesignMessage } from "@/utils/whatsapp";
 import { SERVICES } from "@/constants";
 import { FiUploadCloud, FiGrid, FiEdit3, FiChevronRight } from "react-icons/fi";
 import Image from "next/image";
+import { useDesignStore } from "@/store/designStore";
 
 const categoryIcons: Record<string, string> = {
     "Visiting Cards": "🪪",
@@ -31,6 +32,7 @@ const getCategoryTheme = (category: string) => {
 type Tab = "free" | "custom";
 
 export default function TemplatesPage() {
+    const { submitDesign } = useDesignStore()
     const { user } = useAuthStore();
     const [activeTab, setActiveTab] = useState<Tab>("free");
     const [activeCategory, setActiveCategory] = useState("All");
@@ -83,13 +85,17 @@ export default function TemplatesPage() {
 
         // Try to copy image to clipboard so user can paste in WhatsApp
         try {
+            if (!previewUrl) {
+                throw new Error("Preview URL is not available");
+            }
+            await submitDesign(previewUrl);
             const arrayBuffer = await customDesignFile.arrayBuffer();
             const clipboardItem = new ClipboardItem({
                 [customDesignFile.type]: new Blob([arrayBuffer], { type: customDesignFile.type }),
             });
             await navigator.clipboard.write([clipboardItem]);
             notify.success("✅ Image copied to clipboard! Paste it (Ctrl+V) in the WhatsApp chat.");
-        } catch {
+        } catch (err) {
             // Clipboard API may be blocked — fall back to instructions
             notify.whatsapp("WhatsApp will open now. Please manually attach your design image in the chat.");
         }

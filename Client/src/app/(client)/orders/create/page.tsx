@@ -7,11 +7,14 @@ import { notify } from "@/utils/notifications";
 import { sendWhatsApp, buildOrderMessage } from "@/utils/whatsapp";
 import { PRODUCTS } from "@/constants/products";
 import { ProductImageCarousel } from "@/components/orders/ProductImageCarousel";
-import { FileUploadZone } from "@/components/orders/FileUploadZone";
+import { verifyDesign } from "@/api/design";
+import { useDesignStore } from "@/store/designStore";
+
 
 // ─── Create Order Form ────────────────────────────────────────────────────────
 
 function CreateOrderForm() {
+    const { fetchAllDesigns, designs } = useDesignStore()
     const { user } = useAuthStore();
     const searchParams = useSearchParams();
     const serviceQuery = searchParams.get("service");
@@ -25,11 +28,14 @@ function CreateOrderForm() {
     // ── State ──────────────────────────────────────────────────────────────────
     const [orderName, setOrderName] = useState("");
     const [selectedProductId, setSelectedProductId] = useState<string>("");
-    const [fileOption, setFileOption] = useState<"attach" | "email" | null>(null);
-    const [uploadedFile, setUploadedFile] = useState<File | null>(null);
     const [specialRemark, setSpecialRemark] = useState("");
     const [submitted, setSubmitted] = useState(false);
     const [errors, setErrors] = useState<Record<string, string>>({});
+    // Design code state
+    const [designCode, setDesignCode] = useState("");
+    const [designVerifying, setDesignVerifying] = useState(false);
+    const [designVerified, setDesignVerified] = useState(false);
+    const [designImageUrl, setDesignImageUrl] = useState<string | null>(null);
     const [formFieldsData, setFormFieldsData] = useState<Record<string, string>>({});
     const [carouselIndex, setCarouselIndex] = useState(0);
 
@@ -40,6 +46,10 @@ function CreateOrderForm() {
     const slideCount = product?.images.length ?? 0;
     const activeIndexOverride = product?.getActiveImageIndex ? product.getActiveImageIndex(formFieldsData) : -1;
 
+    useEffect(() => {
+      fetchAllDesigns()
+    }, [])
+    
     useEffect(() => {
         if (activeIndexOverride !== -1) setCarouselIndex(activeIndexOverride);
     }, [activeIndexOverride, formFieldsData]);
@@ -66,7 +76,6 @@ function CreateOrderForm() {
             setFormFieldsData({});
         }
         setCarouselIndex(0);
-        setFileOption(null);
         if (errors.selectedProductId) setErrors((p) => ({ ...p, selectedProductId: "" }));
     };
 
@@ -79,9 +88,28 @@ function CreateOrderForm() {
     const { applicableCost, discount } = product
         ? product.calculatePrice(formFieldsData)
         : { applicableCost: 0, discount: 0 };
-    const emailCharge = fileOption === "email" && product ? product.emailExtraCharge : 0;
-    const amountPayable = applicableCost + emailCharge - discount;
+    const amountPayable = applicableCost - discount;
     const freeDelivery = product ? amountPayable >= product.freeDeliveryThreshold : false;
+
+    // ── Design Code Verify ─────────────────────────────────────────────────────
+    const handleVerifyDesignCode = async () => {
+        if (!designCode.trim()) {
+            notify.error("Please enter a design code first");
+            return;
+        }
+        setDesignVerifying(true);
+        setDesignVerified(false);
+        setDesignImageUrl(null);
+        try {
+            await verifyDesign(designCode)
+            notify.error("API not yet connected — plug in your endpoint here.");
+        } catch {
+            notify.error("Invalid or unrecognised design code.");
+            setDesignVerified(false);
+        } finally {
+            setDesignVerifying(false);
+        }
+    };
 
     // ── Validation ─────────────────────────────────────────────────────────────
     const validate = () => {
@@ -99,7 +127,6 @@ function CreateOrderForm() {
             });
         }
 
-        if (fileOption === "attach" && !uploadedFile) e.file = "Please attach a design file";
         setErrors(e);
         return Object.keys(e).length === 0;
     };
@@ -116,7 +143,7 @@ function CreateOrderForm() {
             service: product!.name,
             quantity: Number(formFieldsData["quantity"] || 0),
             paperType: formFieldsData["holderType"] || detailsParts,
-            finishingOption: fileOption === "email" ? "Send via Email" : "Attach File Online",
+            finishingOption: designVerified ? `Design Code: ${designCode}` : "No design code",
         });
 
         setSubmitted(true);
@@ -127,10 +154,11 @@ function CreateOrderForm() {
     const handleReset = () => {
         setSubmitted(false);
         setOrderName("");
-        setUploadedFile(null);
         setSelectedProductId("");
         setFormFieldsData({});
-        setFileOption(null);
+        setDesignCode("");
+        setDesignVerified(false);
+        setDesignImageUrl(null);
     };
 
     // ─── Success Screen ────────────────────────────────────────────────────────
@@ -279,40 +307,66 @@ function CreateOrderForm() {
                                         </div>
                                     )}
 
-                                    {/* SELECT FILE OPTION */}
+                                    {/* USE APPROVED DESIGN CODE */}
                                     <div className="border border-gray-300 rounded mb-4 overflow-hidden">
-                                        <div className="bg-gray-50 px-4 py-2 border-b border-gray-300">
-                                            <span className="text-xs font-bold text-gray-700 uppercase tracking-wide">SELECT FILE OPTION</span>
+                                        <div className="bg-gray-50 px-4 py-2 border-b border-gray-300 flex items-center justify-between">
+                                            <span className="text-xs font-bold text-gray-700 uppercase tracking-wide">Use Approved Design Code</span>
+                                            <span className="text-[10px] text-gray-400 font-medium italic">Optional — skip if not applicable</span>
                                         </div>
                                         <div className="px-4 py-4 bg-white">
-                                            <div className="flex items-center justify-between mb-3">
-                                                <label className="flex items-center gap-2 cursor-pointer">
-                                                    <span className="text-blue-500">☁️</span>
-                                                    <input type="radio" checked={fileOption === "attach"} onChange={() => setFileOption("attach")} className="accent-blue-600 w-4 h-4 cursor-pointer" />
-                                                    <span className="text-sm text-gray-700 font-medium">Attach File Online</span>
-                                                </label>
-                                                <label className="flex items-center gap-2 cursor-pointer">
-                                                    <span className="text-gray-500">✉️</span>
-                                                    <input type="radio" checked={fileOption === "email"} onChange={() => setFileOption("email")} className="accent-blue-600 w-4 h-4 cursor-pointer" />
-                                                    <span className="text-sm text-gray-700 font-medium">Send via Email</span>
-                                                </label>
+                                            <p className="text-xs text-gray-500 mb-3">
+                                                Enter the design code provided by admin after design approval. Leave blank to skip.
+                                            </p>
+
+                                            {/* Code input + verify button */}
+                                            <div className="flex gap-2">
+                                                <input
+                                                    type="text"
+                                                    value={designCode}
+                                                    onChange={(e) => {
+                                                        setDesignCode(e.target.value);
+                                                        if (designVerified) {
+                                                            setDesignVerified(false);
+                                                            setDesignImageUrl(null);
+                                                        }
+                                                    }}
+                                                    placeholder="e.g. DES-20240312-A3"
+                                                    className="flex-1 px-3 py-2 border border-gray-300 rounded text-sm text-gray-800 bg-gray-50 focus:bg-white focus:border-blue-500 focus:ring-1 focus:ring-blue-500 outline-none font-mono tracking-wide"
+                                                />
+                                                <button
+                                                    type="button"
+                                                    onClick={handleVerifyDesignCode}
+                                                    disabled={designVerifying || !designCode.trim()}
+                                                    className="px-4 py-2 bg-blue-600 text-white text-xs font-bold rounded hover:bg-blue-700 active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed transition-all whitespace-nowrap flex items-center gap-1.5"
+                                                >
+                                                    {designVerifying ? (
+                                                        <>
+                                                            <span className="w-3 h-3 border-2 border-white/40 border-t-white rounded-full animate-spin inline-block" />
+                                                            Verifying…
+                                                        </>
+                                                    ) : (
+                                                        <>🔍 Verify Code</>
+                                                    )}
+                                                </button>
                                             </div>
 
-                                            {fileOption === "attach" && <FileUploadZone file={uploadedFile} onFile={setUploadedFile} />}
-                                            {errors.file && <p className="text-red-500 text-xs mt-1">{errors.file}</p>}
-
-                                            {fileOption === "email" && (
-                                                <div className="mt-2 text-center py-4 border border-dashed border-gray-300 rounded-lg bg-gray-50">
-                                                    <p className="text-sm text-gray-600">
-                                                        Send file to{" "}
-                                                        <a href="mailto:direct@printersclub.in" className="text-blue-600 font-semibold underline">
-                                                            direct@printersclub.in
-                                                        </a>
-                                                        <br />
-                                                        <span className="text-orange-500 mt-1 inline-block text-xs font-semibold bg-orange-100 px-2 py-0.5 rounded">
-                                                            (Extra Charges - Rs.{product.emailExtraCharge}.00 is applicable)
+                                            {/* Verified preview */}
+                                            {designVerified && (
+                                                <div className="mt-4 border border-green-200 rounded-lg bg-green-50 p-3 flex flex-col gap-3">
+                                                    <div className="flex items-center gap-2">
+                                                        <span className="text-green-600 text-base">✅</span>
+                                                        <span className="text-xs font-bold text-green-700 uppercase tracking-wide">Design Approved</span>
+                                                        <span className="ml-auto font-mono text-xs bg-green-100 text-green-800 border border-green-200 px-2 py-0.5 rounded">
+                                                            {designCode}
                                                         </span>
-                                                    </p>
+                                                    </div>
+                                                    {previewUrl && (
+                                                        <img
+                                                            src={previewUrl}
+                                                            alt="Approved design preview"
+                                                            className="w-full max-h-56 object-contain rounded border border-green-200 bg-white"
+                                                        />
+                                                    )}
                                                 </div>
                                             )}
                                         </div>
@@ -326,16 +380,10 @@ function CreateOrderForm() {
                                                     <td className="px-4 py-3 text-gray-600 font-medium">Applicable Cost</td>
                                                     <td className="px-4 py-3 text-gray-800">Rs.</td>
                                                     <td className="px-4 py-3 font-bold text-gray-900 text-right">
-                                                        {applicableCost.toLocaleString("en-IN")}{emailCharge > 0 ? ` + ${emailCharge}` : ""}/-
+                                                        {applicableCost.toLocaleString("en-IN")}/-
                                                     </td>
                                                 </tr>
-                                                {fileOption === "email" && emailCharge > 0 && (
-                                                    <tr className="border-b border-gray-200">
-                                                        <td className="px-4 py-3 text-orange-600 font-medium">Email Extra Charge</td>
-                                                        <td className="px-4 py-3 text-orange-600">Rs.</td>
-                                                        <td className="px-4 py-3 font-bold text-orange-600 text-right">+{emailCharge.toLocaleString("en-IN")}/-</td>
-                                                    </tr>
-                                                )}
+
                                                 <tr className="border-b border-gray-200">
                                                     <td className={`px-4 py-3 font-medium ${discount > 0 ? "text-green-600" : "text-gray-400"}`}>Discount</td>
                                                     <td className={discount > 0 ? "px-4 py-3 text-green-600" : "px-4 py-3 text-gray-400"}>Rs.</td>

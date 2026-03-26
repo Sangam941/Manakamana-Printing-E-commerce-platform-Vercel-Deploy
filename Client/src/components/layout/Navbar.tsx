@@ -7,8 +7,10 @@ import { useState } from "react";
 import { notify } from "@/utils/notifications";
 import { AnimatePresence, easeInOut, motion } from 'motion/react'
 import Image from "next/image";
+import { useProfileStore } from "@/store/profileStore";
 
 export default function Navbar() {
+    const { profile } = useProfileStore()
     const { isAuthenticated, logout } = useAuthStore();
     const pathname = usePathname();
     const router = useRouter();
@@ -79,7 +81,7 @@ export default function Navbar() {
                                 onClick={() => setIsProfileOpen(!isProfileOpen)}
                                 className="border border-blue-500 cursor-pointer h-10 w-10 flex items-center justify-center border-2 rounded-full text-xl font-bold "
                             >
-                                P
+                                {(profile?.companyName && profile?.companyName[0]) || "C"}
                             </div>
                         </div>
                     ) : (
