@@ -63,34 +63,9 @@ enum NotificationRecipientRole {
   ADMIN
 }
 
-enum OrderType {
-  id_card
-}
+// Removed OrderType enum as it's now generalized
 
-enum IdCardOrderStatus {
-  pending_payment
-  confirmed
-  in_progress
-  printed
-  completed
-  cancelled
-}
-
-enum IdCardPaymentStatus {
-  pending
-  paid
-  failed
-}
-
-enum PrintingSide {
-  single
-  double
-}
-
-enum Orientation {
-  landscape
-  portrait
-}
+// Removed IdCard enums as they are now generalized
 
 // ADMIN USERS
 
@@ -157,7 +132,7 @@ model Client {
   walletAccount     WalletAccount?
   walletTopupRequests WalletTopupRequest[]
   walletTransactions WalletTransaction[]
-  idCardOrders      IdCardOrderMain[]
+  // Removed legacy relation, merged with orders
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -174,7 +149,7 @@ model PrintingService {
   basePrice   Float
   isActive    Boolean @default(true)
 
-  orders Order[]
+  // orders Order[] - Removed as Order is now universal
 
   createdAt DateTime @default(now())
 
@@ -214,96 +189,88 @@ model Template {
 
 // NEW ORDER CATALOG SYSTEM
 
-model OrderCategory {
-  id        String   @id @default(uuid())
-  name      String
-  slug      String   @unique
-  imageUrl  String?
-  isActive  Boolean  @default(true)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+// UNIVERSAL PRICING SYSTEM
 
-  products OrderProduct[]
+model Product {
+  id              String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  product_code    String           @unique @db.VarChar(20)
+  name            String           @db.VarChar(100)
+  description     String?          @db.Text
+  production_days Int              @default(3)
+  is_active       Boolean          @default(true)
+  created_at      DateTime         @default(now())
+  updated_at      DateTime         @updatedAt @default(now())
 
-  @@index([slug])
-  @@index([isActive])
-  @@map("order_categories")
+  variants ProductVariant[]
+
+  @@map("products")
 }
 
-model OrderProduct {
-  id              String   @id @default(uuid())
-  categoryId      String
-  name            String
-  code            String   @unique
-  basePrice       Decimal  @db.Decimal(12, 2)
-  minQty          Int      @default(1)
-  previewImageUrl String?
-  description     String?
-  isActive        Boolean  @default(true)
-  
-  // DISCOUNT FIELDS
-  discountPercent Decimal @default(0) @db.Decimal(5, 2)
-  discountAmount  Decimal @default(0) @db.Decimal(12, 2)
+model ProductVariant {
+  id           String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  product_id   String   @db.Uuid
+  variant_code String   @unique @db.VarChar(30)
+  variant_name String   @db.VarChar(150)
+  min_quantity Int      @default(1)
+  is_active    Boolean  @default(true)
+  created_at   DateTime @default(now())
+  updated_at   DateTime @updatedAt @default(now())
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  product       Product          @relation(fields: [product_id], references: [id], onDelete: Cascade)
+  option_groups OptionGroup[]
+  pricing       VariantPricing[]
+  orders        Order[]
 
-  category OrderCategory      @relation(fields: [categoryId], references: [id])
-  orders   IdCardOrderMain[]
-
-  @@index([categoryId])
-  @@index([code])
-  @@index([isActive])
-  @@map("order_products")
+  @@map("product_variants")
 }
 
-model IdCardOrderMain {
-  id                  String              @id @default(uuid())
-  clientId            String
-  productId           String
-  orderType           OrderType           @default(id_card)
-  orderName           String
-  status              IdCardOrderStatus   @default(pending_payment)
-  paymentStatus       IdCardPaymentStatus @default(pending)
-  
-  subtotal            Decimal             @db.Decimal(12, 2)
-  discountPercent     Decimal             @default(0) @db.Decimal(5, 2)
-  discountAmount      Decimal             @default(0) @db.Decimal(12, 2)
-  totalAmount         Decimal             @db.Decimal(12, 2)
-  
-  walletTransactionId String?             @unique
+model OptionGroup {
+  id            String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  variant_id    String   @db.Uuid
+  name          String   @db.VarChar(60)
+  label         String   @db.VarChar(100)
+  display_order Int      @default(0)
+  is_required   Boolean  @default(true)
+  created_at    DateTime @default(now())
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  variant ProductVariant @relation(fields: [variant_id], references: [id], onDelete: Cascade)
+  values  OptionValue[]
 
-  client            Client             @relation(fields: [clientId], references: [id])
-  product           OrderProduct       @relation(fields: [productId], references: [id])
-  walletTransaction WalletTransaction? @relation("IdCardOrderWalletTxn", fields: [walletTransactionId], references: [id])
-  idCardDetails     IdCardOrder?
-
-  @@index([clientId])
-  @@index([productId])
-  @@index([status])
-  @@map("id_card_orders_main")
+  @@unique([variant_id, name])
+  @@map("option_groups")
 }
 
-model IdCardOrder {
-  id           String       @id @default(uuid())
-  orderId      String       @unique
-  quantity     Int
-  printingSide PrintingSide
-  photosLink   String
-  orientation  Orientation
-  stripeColor  String?
-  stripeText   String?
-  remark       String?
+model OptionValue {
+  id            String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  group_id      String   @db.Uuid
+  code          String   @db.VarChar(60)
+  label         String   @db.VarChar(150)
+  display_order Int      @default(0)
+  is_active     Boolean  @default(true)
+  created_at    DateTime @default(now())
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  group OptionGroup @relation(fields: [group_id], references: [id], onDelete: Cascade)
 
-  mainOrder IdCardOrderMain @relation(fields: [orderId], references: [id])
+  @@unique([group_id, code])
+  @@map("option_values")
+}
 
-  @@map("id_card_orders_details")
+model VariantPricing {
+  id            String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  variant_id    String   @db.Uuid
+  
+  holder_type   String?  @db.VarChar(60)
+  paper_quality String?  @db.VarChar(60)
+  page_color    String?  @db.VarChar(60)
+  binding       String?  @db.VarChar(60)
+
+  price      Decimal @db.Decimal(10, 2)
+  is_active  Boolean @default(true)
+  created_at DateTime @default(now())
+
+  variant ProductVariant @relation(fields: [variant_id], references: [id])
+
+  @@map("variant_pricing")
 }
 
 // DESIGN SUBMISSION AND APPROVAL
@@ -407,34 +374,49 @@ model AuditLog {
 // ORDER SYSTEM
 
 model Order {
-  id        String @id @default(uuid())
-  orderName String
+  id               String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  user_id          String   @db.Uuid
+  variant_id       String   @db.Uuid
+  quantity         Int
+  unit_price       Decimal  @db.Decimal(10, 2)
+  total_amount     Decimal  @db.Decimal(10, 2)
+  
+  // DISCOUNT SYSTEM
+  discount_type    String?  @db.VarChar(20) // percentage | fixed
+  discount_value   Decimal  @default(0) @db.Decimal(10, 2)
+  discount_amount  Decimal  @default(0) @db.Decimal(10, 2)
+  final_amount     Decimal  @db.Decimal(10, 2)
 
-  clientId String
-  client   Client @relation(fields: [clientId], references: [id])
+  status           String   @default("pending") @db.VarChar(30)
+  notes            String?  @db.Text
+  pricing_snapshot Json?
+  
+  created_at       DateTime @default(now())
+  updated_at       DateTime @updatedAt @default(now())
 
-  serviceId String
-  service   PrintingService @relation(fields: [serviceId], references: [id])
+  client           Client               @relation(fields: [user_id], references: [id], onDelete: Cascade)
+  variant          ProductVariant       @relation(fields: [variant_id], references: [id])
+  configurations   OrderConfiguration[]
+  approvedDesign   ApprovedDesign?      @relation(fields: [designId], references: [id])
+  designId         String?              @db.Uuid
+  walletTransaction WalletTransaction? @relation("OrderToWalletTxn", fields: [walletTransactionId], references: [id])
+  walletTransactionId String?           @unique @db.Uuid
 
-  quantity       Int
-  specifications Json?
-
-  designId String?
-  design   ApprovedDesign? @relation(fields: [designId], references: [id])
-
-  status        OrderStatus @default(ORDER_PLACED)
-  paymentStatus String      @default("unpaid") // unpaid | paid
-
-  walletTransactionId String? @unique
-  walletTransaction   WalletTransaction? @relation(fields: [walletTransactionId], references: [id])
-
-  totalAmount Decimal? @db.Decimal(12, 2)
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@index([status])
   @@map("orders")
+}
+
+model OrderConfiguration {
+  id              String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  order_id        String   @db.Uuid
+  group_name      String   @db.VarChar(60)
+  group_label     String   @db.VarChar(100)
+  selected_code   String   @db.VarChar(60)
+  selected_label  String   @db.VarChar(150)
+  created_at      DateTime @default(now())
+
+  order Order @relation(fields: [order_id], references: [id], onDelete: Cascade)
+
+  @@map("order_configurations")
 }
 
 // WALLET SYSTEM
@@ -534,8 +516,8 @@ model WalletTransaction {
   wallet         WalletAccount    @relation(fields: [walletId], references: [id])
   client         Client           @relation(fields: [clientId], references: [id])
   topupRequest   WalletTopupRequest? @relation(fields: [topupRequestId], references: [id])
-  order          Order?
-  idCardOrder    IdCardOrderMain?    @relation("IdCardOrderWalletTxn")
+  order          Order?             @relation("OrderToWalletTxn")
+  // Removed idCardOrder as it's now merged with order
 
   createdAt      DateTime         @default(now())
 

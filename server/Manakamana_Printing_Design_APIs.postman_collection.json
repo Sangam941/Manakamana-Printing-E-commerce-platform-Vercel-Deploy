@@ -1,0 +1,365 @@
+{
+  "info": {
+    "name": "Manakamana Printing Design APIs",
+    "description": "Postman Collection for all Client and Admin APIs in the Manakamana Printing E-commerce platform",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Client Auth",
+          "item": [
+            {
+              "name": "Login",
+              "request": {
+                "method": "POST",
+                "header": [{"key": "Content-Type", "value": "application/json"}],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"phone_number\": \"9800000000\",\n  \"password\": \"password123\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/auth/login",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["auth", "login"]
+                }
+              }
+            },
+            {
+              "name": "Logout",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/auth/logout",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["auth", "logout"]
+                }
+              }
+            },
+            {
+              "name": "Get Me",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/auth/me",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["auth", "me"]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Admin Auth",
+          "item": [
+            {
+              "name": "Admin Login",
+              "request": {
+                "method": "POST",
+                "header": [{"key": "Content-Type", "value": "application/json"}],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"email\": \"admin@gmail.com\",\n  \"password\": \"admin\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/admin/auth/login",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["admin", "auth", "login"]
+                }
+              }
+            },
+            {
+              "name": "Admin Logout",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/admin/auth/logout",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["admin", "auth", "logout"]
+                }
+              }
+            },
+            {
+              "name": "Admin Get Me",
+              "request": {
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/admin/auth/me",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["admin", "auth", "me"]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Client",
+      "item": [
+        {
+          "name": "Orders (Universal)",
+          "item": [
+            {
+              "name": "Create Product Order",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {"key": "Authorization", "value": "Bearer {{clientToken}}"},
+                  {"key": "Content-Type", "value": "application/json"}
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"variantId\": \"uuid-here\",\n  \"quantity\": 100,\n  \"options\": {\n    \"paper_quality\": \"250GSM\",\n    \"holder_type\": \"standard\",\n    \"configDetails\": [\n      {\n        \"groupName\": \"paper_quality\",\n        \"groupLabel\": \"Paper Quality\",\n        \"selectedCode\": \"250GSM\",\n        \"selectedLabel\": \"250 GSM Matte\"\n      }\n    ]\n  },\n  \"discount\": {\n    \"type\": \"percentage\",\n    \"value\": 10\n  },\n  \"notes\": \"Urgent delivery\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/orders",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["orders"]
+                }
+              }
+            },
+            {
+              "name": "My Orders",
+              "request": {
+                "method": "GET",
+                "header": [{"key": "Authorization", "value": "Bearer {{clientToken}}"}],
+                "url": {
+                  "raw": "{{baseUrl}}/orders",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["orders"]
+                }
+              }
+            },
+            {
+              "name": "Order Details",
+              "request": {
+                "method": "GET",
+                "header": [{"key": "Authorization", "value": "Bearer {{clientToken}}"}],
+                "url": {
+                  "raw": "{{baseUrl}}/orders/:orderId",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["orders", ":orderId"],
+                  "variable": [{"key": "orderId", "value": "uuid"}]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Design Submissions",
+          "item": [
+            {
+              "name": "Submit Design",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {"key": "file", "type": "file"},
+                    {"key": "templateId", "value": "", "type": "text"},
+                    {"key": "title", "value": "My Design", "type": "text"}
+                  ]
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/design-submissions",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["design-submissions"]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Wallet",
+          "item": [
+            {
+              "name": "Get Balance",
+              "request": {
+                "method": "GET",
+                "header": [{"key": "Authorization", "value": "Bearer {{clientToken}}"}],
+                "url": {
+                  "raw": "{{baseUrl}}/wallet/balance",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["wallet", "balance"]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Admin",
+      "item": [
+        {
+          "name": "Product Management (Universal)",
+          "item": [
+            {
+              "name": "Get All Products",
+              "request": {
+                "method": "GET",
+                "header": [{"key": "Authorization", "value": "Bearer {{adminToken}}"}],
+                "url": {
+                  "raw": "{{baseUrl}}/admin/products",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["admin", "products"]
+                }
+              }
+            },
+            {
+              "name": "Create Product",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {"key": "Authorization", "value": "Bearer {{adminToken}}"},
+                  {"key": "Content-Type", "value": "application/json"}
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"product_code\": \"VC001\",\n  \"name\": \"Visiting Card\",\n  \"production_days\": 3\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/admin/products",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["admin", "products"]
+                }
+              }
+            },
+            {
+              "name": "Create Variant",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {"key": "Authorization", "value": "Bearer {{adminToken}}"},
+                  {"key": "Content-Type", "value": "application/json"}
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"variant_code\": \"VC_PREMIUM\",\n  \"variant_name\": \"Premium Matte Texture\",\n  \"min_quantity\": 50\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/admin/products/:productId/variants",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["admin", "products", ":productId", "variants"],
+                  "variable": [{"key": "productId", "value": "uuid"}]
+                }
+              }
+            },
+            {
+              "name": "Create Option Group",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {"key": "Authorization", "value": "Bearer {{adminToken}}"},
+                  {"key": "Content-Type", "value": "application/json"}
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"paper_quality\",\n  \"label\": \"Paper Quality\",\n  \"display_order\": 1\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/admin/variants/:variantId/option-groups",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["admin", "variants", ":variantId", "option-groups"],
+                  "variable": [{"key": "variantId", "value": "uuid"}]
+                }
+              }
+            },
+            {
+              "name": "Create Option Value",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {"key": "Authorization", "value": "Bearer {{adminToken}}"},
+                  {"key": "Content-Type", "value": "application/json"}
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"code\": \"250GSM\",\n  \"label\": \"250 GSM Matte\",\n  \"display_order\": 1\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/admin/groups/:groupId/option-values",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["admin", "groups", ":groupId", "option-values"],
+                  "variable": [{"key": "groupId", "value": "uuid"}]
+                }
+              }
+            },
+            {
+              "name": "Create Variant Pricing",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {"key": "Authorization", "value": "Bearer {{adminToken}}"},
+                  {"key": "Content-Type", "value": "application/json"}
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"paper_quality\": \"250GSM\",\n  \"holder_type\": \"standard\",\n  \"price\": 15.50\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/admin/variants/:variantId/pricing",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["admin", "variants", ":variantId", "pricing"],
+                  "variable": [{"key": "variantId", "value": "uuid"}]
+                }
+              }
+            },
+            {
+              "name": "Get Variant Full Details",
+              "request": {
+                "method": "GET",
+                "header": [{"key": "Authorization", "value": "Bearer {{adminToken}}"}],
+                "url": {
+                  "raw": "{{baseUrl}}/admin/variants/:variantId/full-details",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["admin", "variants", ":variantId", "full-details"],
+                  "variable": [{"key": "variantId", "value": "uuid"}]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Order Management (Universal)",
+          "item": [
+            {
+              "name": "List All Orders",
+              "request": {
+                "method": "GET",
+                "header": [{"key": "Authorization", "value": "Bearer {{adminToken}}"}],
+                "url": {
+                  "raw": "{{baseUrl}}/admin/orders",
+                  "host": ["{{baseUrl}}"],
+                  "path": ["admin", "orders"]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8005/api/v1"
+    },
+    {
+      "key": "adminToken",
+      "value": "token-here"
+    },
+    {
+      "key": "clientToken",
+      "value": "token-here"
+    }
+  ]
+}

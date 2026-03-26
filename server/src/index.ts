@@ -10,7 +10,7 @@ import templateRoutes from "./routes/template.routes";
 import designSubmissionRoutes from "./routes/design-submission.routes";
 import designRoutes from "./routes/design.routes";
 import orderRoutes from "./routes/order.routes";
-import idCardOrderRoutes from "./routes/id-card-order.routes";
+import productOrderRoutes from "./routes/product-order.routes";
 import clientWalletRoutes from "./routes/wallet/client-wallet.routes";
 import adminWalletRoutes from "./routes/wallet/admin-wallet.routes";
 import { globalErrorHandler } from "./middleware/error.middleware";
@@ -28,8 +28,7 @@ app.use("/api/v1/admin", adminRoutes);
 app.use("/api/v1/templates", templateRoutes);
 app.use("/api/v1/design-submissions", designSubmissionRoutes);
 app.use("/api/v1", designRoutes);
-app.use("/api/v1/orders", orderRoutes);
-app.use("/api/v1/orders/id-cards", idCardOrderRoutes);
+app.use("/api/v1/orders", productOrderRoutes);
 app.use("/api/v1/wallet", clientWalletRoutes);
 app.use("/api/v1/admin/wallet", adminWalletRoutes);
 

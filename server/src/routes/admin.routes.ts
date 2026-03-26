@@ -5,17 +5,10 @@ import { protect, restrictTo } from "../middleware/auth.middleware";
 import * as designSubmissionController from "../controller/design-submission.controller";
 import * as approvedDesignController from "../controller/approved-design.controller";
 import * as serviceController from "../controller/printing-service.controller";
-import * as categoryController from "../controller/order-category.controller";
-import * as productController from "../controller/order-product.controller";
-import * as idCardOrderController from "../controller/id-card-order.controller";
+import * as adminProductController from "../controller/admin-product.controller";
+import * as productOrderController from "../controller/product-order.controller";
 import { validate } from "../middleware/validate.middleware";
-import { 
-  createCategorySchema, 
-  updateCategorySchema,
-  createProductSchema,
-  updateProductSchema,
-  updateIdCardOrderStatusSchema
-} from "../validators/id-card-order.validator";
+// Legacy validators removed
 
 const router = Router();
 
@@ -48,49 +41,17 @@ router.patch("/designs/:designId/archive", protect, restrictTo("ADMIN"), approve
 // PRINTING SERVICES MANAGEMENT
 router.post("/services", protect, restrictTo("ADMIN"), serviceController.createService);
 
-// ORDER CATALOG MANAGEMENT (Categories)
-router.post(
-  "/order-categories",
-  protect,
-  restrictTo("ADMIN"),
-  validate(createCategorySchema),
-  categoryController.createCategory
-);
-router.get("/order-categories", protect, restrictTo("ADMIN"), categoryController.getCategories);
-router.patch(
-  "/order-categories/:categoryId",
-  protect,
-  restrictTo("ADMIN"),
-  validate(updateCategorySchema),
-  categoryController.updateCategory
-);
+// UNIVERSAL PRODUCT & PRICING MANAGEMENT
+router.post("/products", protect, restrictTo("ADMIN"), adminProductController.createProduct);
+router.get("/products", protect, restrictTo("ADMIN"), adminProductController.getAllProducts);
+router.post("/products/:productId/variants", protect, restrictTo("ADMIN"), adminProductController.createVariant);
+router.post("/variants/:variantId/option-groups", protect, restrictTo("ADMIN"), adminProductController.createOptionGroup);
+router.post("/groups/:groupId/option-values", protect, restrictTo("ADMIN"), adminProductController.createOptionValue);
+router.post("/variants/:variantId/pricing", protect, restrictTo("ADMIN"), adminProductController.createVariantPricing);
+router.get("/variants/:variantId/full-details", protect, restrictTo("ADMIN"), adminProductController.getVariantFullDetails);
 
-// ORDER CATALOG MANAGEMENT (Products)
-router.post(
-  "/order-products",
-  protect,
-  restrictTo("ADMIN"),
-  validate(createProductSchema),
-  productController.createProduct
-);
-router.get("/order-products", protect, restrictTo("ADMIN"), productController.getAllProductsAdmin);
-router.patch(
-  "/order-products/:productId",
-  protect,
-  restrictTo("ADMIN"),
-  validate(updateProductSchema),
-  productController.updateProduct
-);
-
-// ID CARD ORDERS MANAGEMENT
-router.get("/orders/id-cards", protect, restrictTo("ADMIN"), idCardOrderController.getAdminIdCardOrders);
-router.get("/orders/id-cards/:orderId", protect, restrictTo("ADMIN"), idCardOrderController.getAdminIdCardOrderById);
-router.patch(
-  "/orders/id-cards/:orderId/status",
-  protect,
-  restrictTo("ADMIN"),
-  validate(updateIdCardOrderStatusSchema),
-  idCardOrderController.updateIdCardOrderStatus
-);
+// ORDERS MANAGEMENT
+router.patch("/orders/:orderId/status", protect, restrictTo("ADMIN"), productOrderController.updateOrderStatus);
+router.get("/orders/:orderId", protect, restrictTo("ADMIN"), productOrderController.getOrderDetails);
 
 export default router;
