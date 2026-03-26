@@ -9,12 +9,14 @@ export const globalErrorHandler = (
   err.statusCode = err.statusCode || 500;
   err.status = err.status || 'error';
 
-  // Log error for debugging
   if (err.statusCode === 500) {
     console.error('ERROR ', err);
   } else {
+<<<<<<< HEAD
+=======
      // Reduced logging (or no logging) for operational errors to avoid clutter/confusion
      console.warn(`Error ${err.statusCode}: ${err.message}`);
+>>>>>>> feat/updatedb
   }
 
   res.status(err.statusCode).json({

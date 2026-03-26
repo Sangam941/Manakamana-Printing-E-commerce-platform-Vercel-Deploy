@@ -9,6 +9,14 @@ generator client {
 
 // ENUMS
 
+<<<<<<< HEAD
+enum Role {
+  ADMIN
+  CLIENT
+}
+
+=======
+>>>>>>> feat/updatedb
 enum RegistrationStatus {
   PENDING
   APPROVED
@@ -24,12 +32,39 @@ enum OrderStatus {
   ORDER_CANCELLED
 }
 
+<<<<<<< HEAD
+enum DesignStatus {
+  PENDING
+=======
 enum DesignSubmissionStatus {
   PENDING_REVIEW
+>>>>>>> feat/updatedb
   APPROVED
   REJECTED
 }
 
+<<<<<<< HEAD
+// USER AUTH SYSTEM
+
+model User {
+  id       String  @id @default(uuid())
+  clientId String? @unique
+  password String
+  role     Role
+
+  client Client?
+
+  registrationRequest RegistrationRequest?  @relation("UserRegistration")
+  reviewedRequests    RegistrationRequest[] @relation("ReviewerRegistration")
+  reviewedDesigns     Design[]              @relation("DesignReviewer")
+  systemLogs          SystemLog[]
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  @@map("users")
+=======
 enum ApprovedDesignStatus {
   ACTIVE
   ARCHIVED
@@ -87,11 +122,34 @@ model AdminUser {
   updatedAt DateTime @updatedAt
 
   @@map("admin_users")
+>>>>>>> feat/updatedb
 }
 
 // REGISTRATION REQUEST (CLIENT ONBOARDING)
 
 model RegistrationRequest {
+<<<<<<< HEAD
+  id            String  @id @default(uuid())
+  companyName   String
+  contactPerson String
+  email         String
+  phone         String
+  address       String?
+  message       String?
+
+  status RegistrationStatus @default(PENDING)
+
+  rejectionReason String?
+
+  reviewedById String?
+  reviewedBy   User?   @relation("ReviewerRegistration", fields: [reviewedById], references: [id])
+
+  userId String? @unique
+  user   User?   @relation("UserRegistration", fields: [userId], references: [id])
+
+  createdAt  DateTime  @default(now())
+  reviewedAt DateTime?
+=======
   id               String  @id @default(uuid())
   business_name    String
   owner_name       String
@@ -105,6 +163,7 @@ model RegistrationRequest {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+>>>>>>> feat/updatedb
 
   @@index([status])
   @@map("registration_requests")
@@ -113,6 +172,21 @@ model RegistrationRequest {
 // CLIENT PROFILE
 
 model Client {
+<<<<<<< HEAD
+  id     String @id @default(uuid())
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  companyName String
+  email       String
+  phone       String?
+  address     String?
+
+  orders Order[]
+
+  createdAt DateTime @default(now())
+  Design    Design[]
+=======
   id           String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   client_code  String? @unique // Immutable internal ID
   phone_number String  @unique // Login ID
@@ -136,6 +210,7 @@ model Client {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+>>>>>>> feat/updatedb
 
   @@map("clients")
 }
@@ -149,7 +224,11 @@ model PrintingService {
   basePrice   Float
   isActive    Boolean @default(true)
 
+<<<<<<< HEAD
+  orders Order[]
+=======
   // orders Order[] - Removed as Order is now universal
+>>>>>>> feat/updatedb
 
   createdAt DateTime @default(now())
 
@@ -158,6 +237,42 @@ model PrintingService {
 
 // TEMPLATE LIBRARY
 
+<<<<<<< HEAD
+model Template {
+  id         String  @id @default(uuid())
+  name       String
+  category   String
+  fileUrl    String
+  previewUrl String?
+
+  createdAt DateTime @default(now())
+
+  @@map("templates")
+}
+
+// CUSTOM DESIGN APPROVAL
+
+model Design {
+  id         String @id @default(uuid())
+  designCode String @unique
+  clientId   String
+  client     Client @relation(fields: [clientId], references: [id])
+
+  fileUrl    String
+  previewUrl String?
+
+  status DesignStatus @default(PENDING)
+  rejectionReason String?
+  reviewedById String?
+  reviewedBy   User?   @relation("DesignReviewer", fields: [reviewedById], references: [id])
+
+  createdAt  DateTime  @default(now())
+  reviewedAt DateTime?
+
+  orders Order[]
+
+  @@map("designs")
+=======
 model TemplateCategory {
   id        String   @id @default(uuid())
   name      String
@@ -369,11 +484,67 @@ model AuditLog {
   createdAt  DateTime   @default(now())
 
   @@map("audit_logs")
+>>>>>>> feat/updatedb
 }
 
 // ORDER SYSTEM
 
 model Order {
+<<<<<<< HEAD
+  id        String @id @default(uuid())
+  orderName String
+
+  clientId String
+  client   Client @relation(fields: [clientId], references: [id])
+
+  serviceId String
+  service   PrintingService @relation(fields: [serviceId], references: [id])
+
+  quantity       Int
+  specifications Json?
+
+  designId String?
+  design   Design? @relation(fields: [designId], references: [id])
+
+  status OrderStatus @default(ORDER_PLACED)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([status])
+  @@map("orders")
+}
+
+// ADMIN DASHBOARD METRICS (OPTIONAL FUTURE)
+
+model SystemLog {
+  id       String @id @default(uuid())
+  action   String
+  metadata Json?
+
+  userId String?
+  user   User?   @relation(fields: [userId], references: [id])
+
+  createdAt DateTime @default(now())
+
+  @@map("system_logs")
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+=======
   id               String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   user_id          String   @db.Uuid
   variant_id       String   @db.Uuid
@@ -529,3 +700,4 @@ model WalletTransaction {
   @@index([createdAt])
   @@map("wallet_transactions")
 }
+>>>>>>> feat/updatedb

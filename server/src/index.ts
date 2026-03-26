@@ -1,4 +1,12 @@
 import "dotenv/config";
+<<<<<<< HEAD
+import express from "express";
+import cors from "cors";
+
+import adminRoutes from "./routes/admin.routes";
+import clientRoutes from "./routes/client.routes";
+import { globalErrorHandler } from "./middleware/error.middleware";
+=======
 import express, { Request,Response } from "express";
 import cors from "cors";
 
@@ -15,6 +23,7 @@ import adminWalletRoutes from "./routes/wallet/admin-wallet.routes";
 import { globalErrorHandler } from "./middleware/error.middleware";
 import swaggerUi from "swagger-ui-express";
 const swaggerOutput = require("../swagger-output.json");
+>>>>>>> feat/updatedb
 
 const app = express();
 const port = process.env.PORT || 8005;
@@ -22,6 +31,10 @@ const port = process.env.PORT || 8005;
 app.use(cors());
 app.use(express.json());
 
+<<<<<<< HEAD
+app.use("/api/v1/client", clientRoutes);
+app.use("/api/v1/admin", adminRoutes);
+=======
 app.use("/api/v1", publicRoutes);
 app.use("/api/v1/user", userRoutes);
 app.use("/api/v1/auth", authRoutes);
@@ -41,6 +54,7 @@ app.get("/",(req:Request,res:Response)=>{
   res.json({message:"API is running"})
 }
 )
+>>>>>>> feat/updatedb
 
 app.use(globalErrorHandler);
 
