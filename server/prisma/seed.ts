@@ -460,7 +460,7 @@ async function main() {
           price: 20.0,
           is_active: true,
           discount_type: "fixed",
-          discount_value: 200
+          discount_value: 2
         }
       }),
     (existing) =>
@@ -473,7 +473,7 @@ async function main() {
           price: 20.0,
           is_active: true,
           discount_type: "fixed",
-          discount_value: 200
+          discount_value: 2
         }
       })
   );

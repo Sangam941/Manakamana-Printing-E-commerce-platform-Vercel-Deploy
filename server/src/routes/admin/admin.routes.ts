@@ -6,6 +6,7 @@ import * as designSubmissionController from "../../controller/design/design-subm
 import * as approvedDesignController from "../../controller/design/approved-design.controller";
 import * as serviceController from "../../controller/printing-service.controller";
 import * as adminProductController from "../../controller/catalog/admin-product.controller";
+import * as adminPricingController from "../../controller/catalog/admin-pricing.controller";
 import * as productOrderController from "../../controller/orders/product-order.controller";
 import { validate } from "../../middleware/validate.middleware";
 // Legacy validators removed
@@ -62,6 +63,9 @@ router.post("/variants/:variantId/option-groups", protect, restrictTo("ADMIN"), 
 router.post("/groups/:groupId/option-values", protect, restrictTo("ADMIN"), adminProductController.createOptionValue);
 router.post("/variants/:variantId/pricing", protect, restrictTo("ADMIN"), adminProductController.createVariantPricing);
 router.get("/variants/:variantId/full-details", protect, restrictTo("ADMIN"), adminProductController.getVariantFullDetails);
+// ADMIN PRICING APIs: Review and update pricing rows without changing catalog structure
+router.get("/pricing/:variantId", protect, restrictTo("ADMIN"), adminPricingController.getVariantPricingMatrix);
+router.patch("/pricing/:pricingId", protect, restrictTo("ADMIN"), adminPricingController.updatePricingRow);
 
 // ORDERS MANAGEMENT: Overview and status updates for all client orders
 router.get("/orders", protect, restrictTo("ADMIN"), productOrderController.getAdminOrders);

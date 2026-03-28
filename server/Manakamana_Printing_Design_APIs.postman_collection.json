@@ -120,6 +120,45 @@
             },
             "url": { "raw": "{{baseUrl}}/variants/:variantId/calculate-price", "host": ["{{baseUrl}}"], "path": ["variants", ":variantId", "calculate-price"], "variable": [{ "key": "variantId", "value": "" }] }
           }
+        },
+        {
+          "name": "Get Products",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{clientToken}}" }],
+            "url": { "raw": "{{baseUrl}}/products", "host": ["{{baseUrl}}"], "path": ["products"] }
+          }
+        },
+        {
+          "name": "Get Product Variants",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{clientToken}}" }],
+            "url": { "raw": "{{baseUrl}}/products/:productId/variants", "host": ["{{baseUrl}}"], "path": ["products", ":productId", "variants"], "variable": [{ "key": "productId", "value": "" }] }
+          }
+        },
+        {
+          "name": "Get Variant Options",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{clientToken}}" }],
+            "url": { "raw": "{{baseUrl}}/variants/:variantId/options", "host": ["{{baseUrl}}"], "path": ["variants", ":variantId", "options"], "variable": [{ "key": "variantId", "value": "" }] }
+          }
+        },
+        {
+          "name": "Calculate Catalog Pricing",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Authorization", "value": "Bearer {{clientToken}}" },
+              { "key": "Content-Type", "value": "application/json" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"variant_id\": \"\",\n  \"selected_options\": {\n    \"paper_quality\": \"300GSM\"\n  },\n  \"quantity\": 100\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/pricing/calculate", "host": ["{{baseUrl}}"], "path": ["pricing", "calculate"] }
+          }
         }
       ]
     },
@@ -643,6 +682,29 @@
                 "method": "GET",
                 "header": [{ "key": "Authorization", "value": "Bearer {{adminToken}}" }],
                 "url": { "raw": "{{baseUrl}}/admin/variants/:variantId/full-details", "host": ["{{baseUrl}}"], "path": ["admin", "variants", ":variantId", "full-details"], "variable": [{ "key": "variantId", "value": "" }] }
+              }
+            },
+            {
+              "name": "Get Admin Pricing By Variant",
+              "request": {
+                "method": "GET",
+                "header": [{ "key": "Authorization", "value": "Bearer {{adminToken}}" }],
+                "url": { "raw": "{{baseUrl}}/admin/pricing/:variantId", "host": ["{{baseUrl}}"], "path": ["admin", "pricing", ":variantId"], "variable": [{ "key": "variantId", "value": "" }] }
+              }
+            },
+            {
+              "name": "Patch Admin Pricing",
+              "request": {
+                "method": "PATCH",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{adminToken}}" },
+                  { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"price\": 15,\n  \"discount\": 0\n}"
+                },
+                "url": { "raw": "{{baseUrl}}/admin/pricing/:pricingId", "host": ["{{baseUrl}}"], "path": ["admin", "pricing", ":pricingId"], "variable": [{ "key": "pricingId", "value": "" }] }
               }
             }
           ]
