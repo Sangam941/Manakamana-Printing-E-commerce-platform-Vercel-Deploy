@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import { notify } from "@/utils/notifications";
 import { useProfileStore } from "@/store/profileStore";
-import { address } from "motion/react-client";
 
 export default function ProfilePage() {
     const { fetchProfile, profile, editProfile } = useProfileStore();
@@ -12,10 +11,10 @@ export default function ProfilePage() {
 
     // Initial form state is derived from the actual profile; fallback if missing.
     const getProfileFormData = () => ({
-        companyName: profile?.companyName || "",
-        contactPerson: profile?.contactPerson || "",
+        business_name: profile?.business_name || "",
+        owner_name: profile?.owner_name || "",
         email: profile?.email || "",
-        phone: profile?.phone || "",
+        phone_number: profile?.phone_number || "",
         address: profile?.address || "",
     });
 
@@ -29,18 +28,17 @@ export default function ProfilePage() {
         setOriginalForm(updated);
         setForm(updated);
     }, [
-        profile?.companyName, 
-        profile?.contactPerson, 
+        profile?.business_name, 
+        profile?.owner_name, 
         profile?.email, 
-        profile?.phone, 
+        profile?.phone_number, 
         profile?.address
     ]);
 
     const handleSave = async () => {
         // Save to DB only the editable fields
         const updates = {
-            phone: form.phone,
-            address: form.address
+            business_name: form.business_name
         };
         try {
             await editProfile(updates);
@@ -74,17 +72,17 @@ export default function ProfilePage() {
                 {/* Profile Card */}
                 <div className="bg-white rounded-2xl border border-[#e2e8f0] overflow-hidden mb-5 md:mb-0">
                     <div className="gradient-card p-8 sm:p-10 text-center">
-                        <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-white/20 flex items-center justify-center mx-auto mb-4 text-2xl sm:text-3xl text-white font-extrabold border-[3px] border-white/40">
-                            {(profile?.companyName && profile?.companyName[0]) || "C"}
+                        <div className="w-16 h-16 uppercase sm:w-20 sm:h-20 rounded-full bg-white/20 flex items-center justify-center mx-auto mb-4 text-2xl sm:text-3xl text-white font-extrabold border-[3px] border-white/40">
+                            {(profile?.owner_name && profile?.owner_name[0]) || "C"}
                         </div>
-                        <h2 className="text-white font-extrabold text-base sm:text-lg tracking-wide">{profile?.companyName}</h2>
+                        <h2 className="text-white font-extrabold text-base sm:text-lg tracking-wide">{profile?.business_name}</h2>
                         <p className="text-white/75 text-xs sm:text-sm mt-1">{profile?.email}</p>
                     </div>
                     <div className="p-5 sm:p-6">
                         <div className="flex flex-col gap-3">
                             <div className="p-3 bg-[#f0f4ff] rounded-[10px] border border-[#c7d9fd]">
                                 <div className="text-[0.65rem] font-bold text-[#4361ee] tracking-wider uppercase mb-1">Client ID</div>
-                                <div className="text-lg font-extrabold text-[#0f172a] tracking-wide">{profile?.clientId}</div>
+                                <div className="text-lg font-extrabold text-[#0f172a] tracking-wide">{profile?.client_code}</div>
                             </div>
                             <div>
                                 <div className="text-xs text-[#94a3b8] mb-1">Account Status</div>
@@ -136,9 +134,9 @@ export default function ProfilePage() {
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                         {/* Show DB (profile) values for readonly, form values for editing */}
                         {[
-                            { label: "Company Name", name: "companyName" },
+                            { label: "Company Name", name: "business_name" },
                             { label: "Email Address", name: "email" },
-                            { label: "Phone Number", name: "phone" },
+                            { label: "Phone Number", name: "phone_number" },
                         ].map(({ label, name }) => (
                             <div key={name} className="form-group flex flex-col">
                                 <label className="form-label mb-1">{label}</label>
@@ -185,7 +183,7 @@ export default function ProfilePage() {
                         <button
                             onClick={() =>
                                 window.open(
-                                    `https://wa.me/97798XXXXXXXX?text=Hello%20Admin%2C%20I%20need%20help%20with%20my%20account%20%28Client%20ID%3A%20${profile?.clientId}%29`,
+                                    `https://wa.me/97798XXXXXXXX?text=Hello%20Admin%2C%20I%20need%20help%20with%20my%20account%20%28Client%20ID%3A%20${profile?.client_code}%29`,
                                     "_blank"
                                 )
                             }

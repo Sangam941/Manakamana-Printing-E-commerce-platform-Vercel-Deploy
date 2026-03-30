@@ -35,9 +35,9 @@ export const approvedDesign = async (id:string) => {
 
 
 // Verify the design by designCode
-export const verifyDesign = async (designCode: string): Promise<any> => {
+export const verifyDesign = async (designId: string): Promise<any> => {
     try {
-        const response = await api.post(`/v1/client/designs/verify`, {designCode});
+        const response = await api.post(`/v1/designs/verify`, {designId});
         console.log(response.data.data)
         return response.data.data;
     } catch (error) {

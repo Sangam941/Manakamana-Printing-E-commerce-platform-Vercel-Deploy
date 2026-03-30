@@ -1,15 +1,15 @@
 export interface User {
   id: string;
   userId: string;
-  clientId?: string;
+  client_code?: string;
   role?: string;
-  companyName: string;
-  contactPerson?: string;
-  phone: string;
+  business_name: string;
+  owner_name?: string;
+  phone_number: string;
   email: string;
   address: string;
   createdAt?: string;
-  printingRequirements?: string;
+  notes?: string;
   user?: user
 }
 

@@ -5,17 +5,17 @@ import api from "./axios";
 
 // Define RegisterCredentials type for registration
 export type RegisterCredentials = {
-    companyName: string;
-    contactPerson: string;
+    business_name: string;
+    owner_name: string;
     email: string;
-    phone: string;
-    address: string;
-    message: string;
+    phone_number: string;
+    business_address: string;
+    notes?: string;
 };
 
 export const registerUser = async(payload:RegisterCredentials)=>{
     try {
-        const response = await api.post('/v1/client/registerrequest', payload)
+        const response = await api.post('/v1/register-request', payload)
         return response.data;
     } catch (error) {
         throw error
@@ -24,9 +24,9 @@ export const registerUser = async(payload:RegisterCredentials)=>{
 
 
 //login user
-export const loginUser = async(client_id:string,password:string)=>{
+export const loginUser = async(phone_number:string,password:string)=>{
     try {
-        const response = await api.post('/v1/client/login', {client_id, password})
+        const response = await api.post('/v1/auth/login', {phone_number, password})
         return response.data;
     } catch (error) {
         throw error

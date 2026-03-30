@@ -7,23 +7,23 @@ export const sendWhatsApp = (message: string) => {
 };
 
 export const buildRegistrationMessage = (data: {
-    companyName: string;
-    contactPerson: string;
-    phone: string;
+    business_name: string;
+    owner_name: string;
+    phone_number: string;
     email: string;
-    address: string;
-    message: string;
+    business_address: string;
+    notes?: string;
 }) => {
     return `Hello Manakamana Printing Press,
 
 A new client registration request has been submitted.
 
-Company Name: ${data.companyName}
-Contact Person: ${data.contactPerson}
-Phone: ${data.phone}    
+Company Name: ${data.business_name}
+Contact Person: ${data.owner_name}
+Phone: ${data.phone_number}    
 Email: ${data.email}
-Address: ${data.address}
-Printing Needs: ${data.message}
+Address: ${data.business_address}
+Printing Needs: ${data.notes}
 
 Please review this request and provide Client ID and password.`;
 };

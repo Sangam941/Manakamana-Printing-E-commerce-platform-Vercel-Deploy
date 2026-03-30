@@ -59,12 +59,12 @@ export default function RegisterPage() {
         if (!validate()) return;
 
         const registrationData = {
-            companyName: form.companyName,
-            contactPerson: form.contactPerson,
-            phone: form.phone,
+            business_name: form.companyName,
+            owner_name: form.contactPerson,
+            phone_number: form.phone,
             email: form.email,
-            address: form.address,
-            message: form.printingNeeds || "Not specified",
+            business_address: form.address,
+            notes: form.printingNeeds || "Not specified",
         };
 
         try {

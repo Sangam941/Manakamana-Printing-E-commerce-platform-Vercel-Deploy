@@ -34,8 +34,7 @@ export const useProfileStore = create<ProfileStoreState>()(
                         profile: state.profile
                             ? {
                                 ...state.profile,
-                                phone: updatedUser.phone ?? state.profile.phone,
-                                address: updatedUser.address ?? state.profile.address,
+                                business_name: updatedUser.business_name ?? state.profile.business_name,
                               }
                             : null,
                         error: null,

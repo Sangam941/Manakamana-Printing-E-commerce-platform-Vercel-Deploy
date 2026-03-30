@@ -1,0 +1,1212 @@
+{
+  "info": {
+    "name": "Manakamana Printing Design APIs",
+    "description": "Comprehensive Postman Collection for all Client and Admin APIs in the Universal Pricing & Ordering Engine platform",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Client Auth",
+          "item": [
+            {
+              "name": "Login",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"phone_number\": \"9800000000\",\n  \"password\": \"password123\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/auth/login",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "auth",
+                    "login"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Logout",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/auth/logout",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "auth",
+                    "logout"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Get Me",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{clientToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/auth/me",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "auth",
+                    "me"
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Admin Auth",
+          "item": [
+            {
+              "name": "Admin Login",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"email\": \"admin@gmail.com\",\n  \"password\": \"admin\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/admin/auth/login",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "auth",
+                    "login"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Admin Logout",
+              "request": {
+                "method": "POST",
+                "header": [],
+                "url": {
+                  "raw": "{{baseUrl}}/admin/auth/logout",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "auth",
+                    "logout"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Admin Get Me",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{adminToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/admin/auth/me",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "auth",
+                    "me"
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Public",
+      "item": [
+        {
+          "name": "Register Client Request",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"business_name\": \"My Prints Co.\",\n  \"owner_name\": \"John Doe\",\n  \"phone_number\": \"9800000000\",\n  \"email\": \"info@myprints.com\",\n  \"address\": \"Kathmandu, Nepal\"\n}"
+            },
+            "url": {
+              "raw": "{{baseUrl}}/register-request",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "register-request"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Printing Services",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/services",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "services"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Printing Service By ID",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/services/:serviceId",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "services",
+                ":serviceId"
+              ],
+              "variable": [
+                {
+                  "key": "serviceId",
+                  "value": "uuid"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Client",
+      "item": [
+        {
+          "name": "User Profile",
+          "item": [
+            {
+              "name": "Get Profile",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{clientToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/user/profile",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "user",
+                    "profile"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Update Profile",
+              "request": {
+                "method": "PATCH",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{clientToken}}"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"business_name\": \"Jane Doe Prints\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/user/profile",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "user",
+                    "profile"
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Templates",
+          "item": [
+            {
+              "name": "Get Categories",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{clientToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/templates/categories",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "templates",
+                    "categories"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Get Templates",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{clientToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/templates",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "templates"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Get Single Template",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{clientToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/templates/:templateId",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "templates",
+                    ":templateId"
+                  ],
+                  "variable": [
+                    {
+                      "key": "templateId",
+                      "value": "uuid"
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Design Submissions",
+          "item": [
+            {
+              "name": "Submit Design",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{clientToken}}"
+                  }
+                ],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "key": "file",
+                      "type": "file"
+                    },
+                    {
+                      "key": "templateId",
+                      "value": "",
+                      "type": "text"
+                    },
+                    {
+                      "key": "title",
+                      "value": "My Design",
+                      "type": "text"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/design-submissions",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "design-submissions"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Get My Submissions",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{clientToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/design-submissions/my",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "design-submissions",
+                    "my"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Get My Submission By ID",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{clientToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/design-submissions/my/:submissionId",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "design-submissions",
+                    "my",
+                    ":submissionId"
+                  ],
+                  "variable": [
+                    {
+                      "key": "submissionId",
+                      "value": "uuid"
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Approved Designs",
+          "item": [
+            {
+              "name": "Get My Design By ID",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{clientToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/my-designs/:designId",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "my-designs",
+                    ":designId"
+                  ],
+                  "variable": [
+                    {
+                      "key": "designId",
+                      "value": "DSN-2026-000001"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Verify Design ID",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{clientToken}}"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"designId\": \"DSN-2026-000001\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/designs/verify",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "designs",
+                    "verify"
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Orders (Universal)",
+          "item": [
+            {
+              "name": "Create Product Order",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{clientToken}}"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"variantId\": \"uuid-here\",\n  \"quantity\": 100,\n  \"options\": {\n    \"paper_quality\": \"250GSM\",\n    \"holder_type\": \"standard\",\n    \"configDetails\": [\n      {\n        \"groupName\": \"paper_quality\",\n        \"groupLabel\": \"Paper Quality\",\n        \"selectedCode\": \"250GSM\",\n        \"selectedLabel\": \"250 GSM Matte\"\n      }\n    ]\n  },\n  \"discount\": {\n    \"type\": \"percentage\",\n    \"value\": 10\n  },\n  \"notes\": \"Urgent delivery\",\n  \"designId\": \"uuid-of-approved-design\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/orders",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "orders"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "My Orders",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{clientToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/orders",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "orders"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Order Details",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{clientToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/orders/:orderId",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "orders",
+                    ":orderId"
+                  ],
+                  "variable": [
+                    {
+                      "key": "orderId",
+                      "value": "uuid"
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Wallet",
+          "item": [
+            {
+              "name": "Get Balance",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{clientToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/wallet/balance",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "wallet",
+                    "balance"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Get Payment Details",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{clientToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/wallet/payment-details",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "wallet",
+                    "payment-details"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Submit Top-up Request",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{clientToken}}"
+                  }
+                ],
+                "body": {
+                  "mode": "formdata",
+                  "formdata": [
+                    {
+                      "key": "amount",
+                      "value": "1500",
+                      "type": "text"
+                    },
+                    {
+                      "key": "transferReference",
+                      "value": "REF-123",
+                      "type": "text"
+                    },
+                    {
+                      "key": "note",
+                      "value": "Top up",
+                      "type": "text"
+                    },
+                    {
+                      "key": "proofFile",
+                      "type": "file"
+                    }
+                  ]
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/wallet/topup-requests",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "wallet",
+                    "topup-requests"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Get My Top-up Requests",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{clientToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/wallet/topup-requests",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "wallet",
+                    "topup-requests"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Get Transactions",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{clientToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/wallet/transactions",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "wallet",
+                    "transactions"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Confirm Wallet Payment",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{clientToken}}"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/wallet/orders/:orderId/confirm-wallet-payment",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "wallet",
+                    "orders",
+                    ":orderId",
+                    "confirm-wallet-payment"
+                  ],
+                  "variable": [
+                    {
+                      "key": "orderId",
+                      "value": "uuid"
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Admin",
+      "item": [
+        {
+          "name": "Registration Requests",
+          "item": [
+            {
+              "name": "Get All Requests",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{adminToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/admin/registration-requests",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "registration-requests"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Approve Request",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{adminToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/admin/registration-requests/:requestId/approve",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "registration-requests",
+                    ":requestId",
+                    "approve"
+                  ],
+                  "variable": [
+                    {
+                      "key": "requestId",
+                      "value": "uuid"
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Product Management (Universal)",
+          "item": [
+            {
+              "name": "Create Product",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{adminToken}}"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"product_code\": \"VC001\",\n  \"name\": \"Visiting Card\",\n  \"production_days\": 3\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/admin/products",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "products"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Create Variant",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{adminToken}}"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"variant_code\": \"VC_PREMIUM\",\n  \"variant_name\": \"Premium Matte\",\n  \"min_quantity\": 50\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/admin/products/:productId/variants",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "products",
+                    ":productId",
+                    "variants"
+                  ],
+                  "variable": [
+                    {
+                      "key": "productId",
+                      "value": "uuid"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Create Option Group",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{adminToken}}"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"name\": \"paper_quality\",\n  \"label\": \"Paper Quality\",\n  \"display_order\": 1\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/admin/variants/:variantId/option-groups",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "variants",
+                    ":variantId",
+                    "option-groups"
+                  ],
+                  "variable": [
+                    {
+                      "key": "variantId",
+                      "value": "uuid"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Create Option Value",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{adminToken}}"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"code\": \"250GSM\",\n  \"label\": \"250 GSM Matte\",\n  \"display_order\": 1\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/admin/groups/:groupId/option-values",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "groups",
+                    ":groupId",
+                    "option-values"
+                  ],
+                  "variable": [
+                    {
+                      "key": "groupId",
+                      "value": "uuid"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Create Variant Pricing",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{adminToken}}"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"paper_quality\": \"250GSM\",\n  \"holder_type\": \"standard\",\n  \"price\": 15.50\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/admin/variants/:variantId/pricing",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "variants",
+                    ":variantId",
+                    "pricing"
+                  ],
+                  "variable": [
+                    {
+                      "key": "variantId",
+                      "value": "uuid"
+                    }
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Get Full Variant Details",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{adminToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/admin/variants/:variantId/full-details",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "variants",
+                    ":variantId",
+                    "full-details"
+                  ],
+                  "variable": [
+                    {
+                      "key": "variantId",
+                      "value": "uuid"
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Design Submissions",
+          "item": [
+            {
+              "name": "Get All Submissions",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{adminToken}}"
+                  }
+                ],
+                "url": {
+                  "raw": "{{baseUrl}}/admin/design-submissions",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "design-submissions"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Approve Submission",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{adminToken}}"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"note\": \"Looks great!\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/admin/design-submissions/:submissionId/approve",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "design-submissions",
+                    ":submissionId",
+                    "approve"
+                  ],
+                  "variable": [
+                    {
+                      "key": "submissionId",
+                      "value": "uuid"
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Wallet Management",
+          "item": [
+            {
+              "name": "Create Payment Settings",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{adminToken}}"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"companyName\": \"Mankamana Printers\",\n  \"bankName\": \"Global IME\",\n  \"accountNumber\": \"0011223344\",\n  \"accountName\": \"Mankamana Printers\",\n\n  \"isActive\": true\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/admin/wallet/payment-details",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "wallet",
+                    "payment-details"
+                  ]
+                }
+              }
+            },
+            {
+              "name": "Approve Top-up",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Authorization",
+                    "value": "Bearer {{adminToken}}"
+                  },
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"approvedAmount\": 1500,\n  \"note\": \"Verified\"\n}"
+                },
+                "url": {
+                  "raw": "{{baseUrl}}/admin/wallet/topup-requests/:requestId/approve",
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "path": [
+                    "admin",
+                    "wallet",
+                    "topup-requests",
+                    ":requestId",
+                    "approve"
+                  ],
+                  "variable": [
+                    {
+                      "key": "requestId",
+                      "value": "uuid"
+                    }
+                  ]
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8005/api/v1"
+    },
+    {
+      "key": "adminToken",
+      "value": "your-admin-token-here"
+    },
+    {
+      "key": "clientToken",
+      "value": "your-client-token-here"
+    }
+  ]
+}

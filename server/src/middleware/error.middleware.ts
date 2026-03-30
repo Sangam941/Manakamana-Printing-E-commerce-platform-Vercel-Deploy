@@ -10,8 +10,10 @@ export const globalErrorHandler = (
   err.status = err.status || 'error';
 
   if (err.statusCode === 500) {
-    console.error('ERROR 💥', err);
+    console.error('ERROR ', err);
   } else {
+     // Reduced logging (or no logging) for operational errors to avoid clutter/confusion
+     console.warn(`Error ${err.statusCode}: ${err.message}`);
   }
 
   res.status(err.statusCode).json({

@@ -79,9 +79,9 @@ export default function Navbar() {
 
                             <div
                                 onClick={() => setIsProfileOpen(!isProfileOpen)}
-                                className="border border-blue-500 cursor-pointer h-10 w-10 flex items-center justify-center border-2 rounded-full text-xl font-bold "
+                                className="border uppercase border-blue-500 cursor-pointer h-10 w-10 flex items-center justify-center border-2 rounded-full text-xl font-bold "
                             >
-                                {(profile?.companyName && profile?.companyName[0]) || "C"}
+                                {(profile?.owner_name && profile?.owner_name[0]) || "C"}
                             </div>
                         </div>
                     ) : (
