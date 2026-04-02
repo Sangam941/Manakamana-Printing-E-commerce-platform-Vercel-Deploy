@@ -2,42 +2,34 @@ import { Service, Template, Order } from "@/types";
 
 export const SERVICES: Service[] = [
 
-    {
-        id: "card-holders",
-        name: "Card Holders",
-        minimumQuantity: 100,
-        image: "/images/printing-services/card-holder.jpg",
-    },
-    {
-        id: "pamphlets",
-        name: "Pamphlets",
-        minimumQuantity: 200,
-        image: "/images/printing-services/pamplets.jpg",
-    },
-    {
-        id: "posters",
-        name: "Posters",
-        minimumQuantity: 200,
-        image: "/images/printing-services/poster.jpg",
-    },
-    {
-        id: "letterheads",
-        name: "Letterheads",
-        minimumQuantity: 100,
-        image: "/images/printing-services/letter-head.jpg",
-    },
-    {
-        id: "bill-books",
-        name: "Bill Books",
-        minimumQuantity: 100,
-        image: "/images/printing-services/bill-books.jpg",
-    },
+    // {
+    //     id: "bill-books",
+    //     name: "Bill Books",
+    //     isActive: true,
+    //     route: "/orders/create/bill-book",
+    //     image: "/images/printing-services/bill-books/BILL-1.jpg",
+    // },
     {
         id: "id-cards",
         name: "ID Cards",
-        minimumQuantity: 1,
+        isActive: true,
+        route: "/orders/create/id-card",
         image: "/images/printing-services/id/id-1.webp",
     },
+    // {
+    //     id: "pamphlets",
+    //     name: "Pamphlets",
+    //     isActive: true,
+    //     route: "/orders/create/pamphlets",
+    //     image: "/images/printing-services/pamplets.jpg",
+    // },
+    // {
+    //     id: "visiting-cards",
+    //     name: "Visiting Cards",
+    //     isActive: true,
+    //     route: "/orders/create/visiting-cards",
+    //     image: "/images/printing-services/v-card.jpg",
+    // },
 
 ];
 

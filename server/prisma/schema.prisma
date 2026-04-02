@@ -465,29 +465,6 @@ model Notification {
   @@map("notifications")
 }
 
-// NOTIFICATIONS AND AUDIT LOGS
-
-model Notification {
-  id            String                    @id @default(uuid())
-  recipientRole NotificationRecipientRole
-  recipientId   String
-  type          String
-  title         String
-  message       String
-  referenceId   String?
-  isRead        Boolean                   @default(false)
-  createdAt     DateTime                  @default(now())
-  readAt        DateTime?
-
-  clientId      String?  @db.Uuid
-  client        Client?  @relation(fields: [clientId], references: [id])
-
-  @@index([recipientRole, recipientId])
-  @@index([isRead])
-  @@index([createdAt])
-  @@map("notifications")
-}
-
 
 // ORDER SYSTEM
 

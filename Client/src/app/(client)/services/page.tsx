@@ -2,18 +2,19 @@
 
 import Link from "next/link";
 import Image from "next/image";
-import { useServicesStore } from "@/store/useServicesStore";
-import { useEffect } from "react";
+// import { useServicesStore } from "@/store/useServicesStore";
+// import { useEffect } from "react";
+import { SERVICES } from "@/constants";
 
 export default function ServicesPage() {
 
-    const { fetchServices, services } = useServicesStore()
+    // const { fetchServices, services } = useServicesStore()
 
-    useEffect(() => {
-      fetchServices()
-    }, [])
+    // useEffect(() => {
+    //   fetchServices()
+    // }, [])
 
-    console.log(services)
+    // console.log(services)
     
     return (
         <div className="py-10 px-10">
@@ -26,7 +27,7 @@ export default function ServicesPage() {
             </div>
 
             <div className="grid grid-cols-[repeat(auto-fill,minmax(280px,1fr))] gap-6">
-                {services.map((service) => (
+                {SERVICES.map((service) => (
                     <div key={service.id} className="card cursor-pointer">
                         {/* Preview image / icon area */}
                         <div className="h-[160px] relative overflow-hidden">
@@ -63,7 +64,7 @@ export default function ServicesPage() {
                             </div>
 
                             <Link
-                                href={`/orders/create?service=${encodeURIComponent(service.name)}`}
+                                href={service.route || `/orders/create?service=${encodeURIComponent(service.name)}`}
                                 className="btn-primary w-full text-center block p-2.5"
                             >
                                 Create Order

@@ -46,8 +46,10 @@ export interface Order {
 export interface Service {
   id: string;
   name: string;
+  route?: string;
   description?: string;
   basePrice?: number;
+  image?: string;
   isActive?: boolean;
   createdAt?: string;
 }
@@ -87,3 +89,43 @@ export type ProductDef = {
   freeDeliveryThreshold: number;
   renderProductInfo: () => React.ReactNode;
 };
+
+// ─── Backend Product Types ───────────────────────────────────────────────────
+
+export type ProductType = "ID_CARD" | "CARD_HOLDER" | "BILL_BOOK" | "PAMPHLET";
+
+export interface PricingDetails {
+  quantity: number;
+  printing_side: "single" | "double";
+  base_unit_price: number;
+  discount_type: string | null;
+  discount_value: number;
+  discount_amount_per_unit: number;
+  total_discount_amount: number;
+  final_unit_price: number;
+  total_amount: number;
+  final_amount: number;
+}
+
+export interface BackendProduct {
+  id: string;
+  product_type: ProductType;
+  product_code: string;
+  name: string;
+  description: string;
+  image_url: string;
+  is_active: boolean;
+  base_price: number;
+  discount_type: string | null;
+  discount_value: number;
+  pricing: PricingDetails;
+  created_at?: string;
+  updated_at?: string;
+}
+
+export interface ProductConfig {
+  type: ProductType;
+  fields: FieldDef[];
+  calculatePrice: (product: BackendProduct, state: Record<string, string>) => { applicableCost: number; discount: number };
+  renderInfo: (product: BackendProduct) => React.ReactNode;
+}

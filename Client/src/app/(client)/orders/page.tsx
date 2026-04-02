@@ -1,10 +1,10 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
-import { MOCK_ORDERS } from "@/constants";
 import { getStatusColor, getStatusLabel, formatDate } from "@/utils/helpers";
 import { OrderStatus } from "@/types";
+import { useIDCardStore } from "@/store/useIDCardStore";
 
 const STATUS_FILTERS: { label: string; value: string }[] = [
     { label: "All Orders", value: "ALL" },
@@ -17,17 +17,36 @@ const STATUS_FILTERS: { label: string; value: string }[] = [
 ];
 
 export default function OrdersPage() {
+    const { fetchMyOrders, myOrders } = useIDCardStore()
     const [statusFilter, setStatusFilter] = useState("ALL");
     const [search, setSearch] = useState("");
 
-    const filtered = MOCK_ORDERS.filter((o) => {
+    // Safely extract product name from order
+    const getProductName = (order: any) => {
+        return order?.product_name || "";
+    };
+
+    // Safely extract paper and finish names from idcard_detail
+    const getPaperType = (order: any) => {
+        return order?.idcard_detail?.paper_type || "";
+    };
+    const getFinishingOption = (order: any) => {
+        return order?.idcard_detail?.finishing_option || "";
+    };
+
+    const filtered = myOrders.filter((o) => {
         const matchStatus = statusFilter === "ALL" || o.status === statusFilter;
         const matchSearch =
             search === "" ||
-            o.orderName.toLowerCase().includes(search.toLowerCase()) ||
-            o.service.toLowerCase().includes(search.toLowerCase());
+            getProductName(o).toLowerCase().includes(search.toLowerCase());
         return matchStatus && matchSearch;
     });
+
+    useEffect(() => {
+        fetchMyOrders()
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
+    
 
     return (
         <div className="p-3 sm:p-6 md:p-10 max-w-7xl mx-auto">
@@ -40,7 +59,7 @@ export default function OrdersPage() {
                     </p>
                 </div>
                 <Link
-                    href="/orders/create"
+                    href="/services"
                     className="btn-primary w-full sm:w-auto text-center"
                 >
                     ➕ New Order
@@ -88,7 +107,7 @@ export default function OrdersPage() {
                                 <th className="p-4 font-bold">Order Name</th>
                                 <th className="p-4 font-bold">Service</th>
                                 <th className="p-4 font-bold">Quantity</th>
-                                <th className="p-4 font-bold">Paper / Finish</th>
+                                {/* <th className="p-4 font-bold">Paper / Finish</th> */}
                                 <th className="p-4 font-bold">Status</th>
                                 <th className="p-4 font-bold">Date</th>
                             </tr>
@@ -107,26 +126,26 @@ export default function OrdersPage() {
                                             {order.id}
                                         </td>
                                         <td className="p-4 font-semibold text-[#0f172a]">
-                                            {order.orderName}
+                                            {getProductName(order)}
                                         </td>
                                         <td className="p-4">
-                                            <div className="text-[0.82rem] text-[#0f172a]">{order.service}</div>
-                                            <div className="text-[0.68rem] text-[#94a3b8] mt-0.5">{order.orderType}</div>
+                                            <div className="text-[0.82rem] text-[#0f172a]">{order.pricing_snapshot?.order_type || ""}</div>
+                                            <div className="text-[0.68rem] text-[#94a3b8] mt-0.5">{order.pricing_snapshot.order_type || "---"}</div>
                                         </td>
                                         <td className="p-4 text-[#475569]">
-                                            {order.quantity.toLocaleString()}
+                                            {order.pricing_snapshot?.quantity?.toLocaleString() || ""}
                                         </td>
-                                        <td className="p-4">
-                                            <div className="text-[0.78rem] text-[#0f172a]">{order.paperType}</div>
-                                            <div className="text-[0.68rem] text-[#94a3b8]">{order.finishingOption}</div>
-                                        </td>
+                                        {/* <td className="p-4">
+                                            <div className="text-[0.78rem] text-[#0f172a]">{getPaperType(order)}</div>
+                                            <div className="text-[0.68rem] text-[#94a3b8]">{getFinishingOption(order)}</div>
+                                        </td> */}
                                         <td className="p-4">
                                             <span className={`badge ${getStatusColor(order.status as OrderStatus)}`}>
                                                 {getStatusLabel(order.status as OrderStatus)}
                                             </span>
                                         </td>
                                         <td className="p-4 text-[#64748b] text-[0.82rem]">
-                                            {formatDate(order.date)}
+                                            {order.created_at ? formatDate(order.created_at) : ''}
                                         </td>
                                     </tr>
                                 ))
@@ -156,37 +175,38 @@ export default function OrdersPage() {
                                     {getStatusLabel(order.status as OrderStatus)}
                                 </span>
                             </div>
-                            <div className="font-extrabold text-[#0f172a] text-[1.02rem]">{order.orderName}</div>
+                            <div className="font-extrabold text-[#0f172a] text-[1.02rem]">{getProductName(order)}</div>
                             <div className="flex flex-wrap gap-3 mt-1">
-                                <span className="text-[0.81rem] text-[#0f172a] font-semibold">{order.service}</span>
+                                <span className="text-[0.81rem] text-[#0f172a] font-semibold">{order.pricing_snapshot?.order_type || ""}</span>
                                 <span className="badge text-xs bg-[#f8fafc] text-[#64748b] border-none">
-                                    {order.orderType}
+                                    {order.pricing_snapshot?.order_type || "---"}
                                 </span>
                             </div>
                             <div className="flex flex-wrap gap-4 text-[0.8rem] text-[#475569] mt-2">
                                 <div>
                                     <span className="block font-medium text-[0.75rem] text-[#94a3b8]">Qty</span>
-                                    <span>{order.quantity.toLocaleString()}</span>
+                                    <span>{order.pricing_snapshot?.quantity?.toLocaleString() || ""}</span>
                                 </div>
                                 <div>
                                     <span className="block font-medium text-[0.75rem] text-[#94a3b8]">Paper</span>
-                                    <span>{order.paperType}</span>
+                                    <span>{getPaperType(order)}</span>
                                 </div>
                                 <div>
                                     <span className="block font-medium text-[0.75rem] text-[#94a3b8]">Finish</span>
-                                    <span>{order.finishingOption}</span>
+                                    <span>{getFinishingOption(order)}</span>
                                 </div>
                             </div>
                             <div className="mt-2 text-[0.80rem] text-[#64748b]">
                                 <span className="font-medium">Ordered: </span>
-                                {formatDate(order.date)}
+                                {order.created_at ? formatDate(order.created_at) : ''}
                             </div>
                         </div>
                     ))
                 )}
             </div>
+            {/* Showing X of Y orders: show only "of Y" if loaded orders' total is available, otherwise show just X */}
             <p className="text-right mt-4 text-[0.78rem] text-[#94a3b8]">
-                Showing {filtered.length} of {MOCK_ORDERS.length} orders
+                Showing {filtered.length} orders
             </p>
         </div>
     );
