@@ -12,6 +12,8 @@ import designRoutes from "./routes/design/design.routes";
 import productOrderRoutes from "./routes/orders/product-order.routes";
 import clientWalletRoutes from "./routes/wallet/client-wallet.routes";
 import adminWalletRoutes from "./routes/wallet/admin-wallet.routes";
+import idcardRoutes from "./routes/idcard/idcard.routes";
+import adminIdcardRoutes from "./routes/idcard/admin-idcard.routes";
 import { globalErrorHandler } from "./middleware/error.middleware";
 import swaggerUi from "swagger-ui-express";
 const swaggerOutput = require("../swagger-output.json");
@@ -34,6 +36,8 @@ app.use("/api/v1/templates", templateRoutes);
 app.use("/api/v1/design-submissions", designSubmissionRoutes);
 app.use("/api/v1", designRoutes);
 app.use("/api/v1/orders", productOrderRoutes);
+app.use("/api/v1/idcards", idcardRoutes);
+app.use("/api/v1/admin/idcards", adminIdcardRoutes);
 app.use("/api/v1/wallet", clientWalletRoutes);
 app.use("/api/v1/admin/wallet", adminWalletRoutes);
 

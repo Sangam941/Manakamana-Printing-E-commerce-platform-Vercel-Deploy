@@ -307,7 +307,6 @@ async function main() {
       category_id: productCat.id,
       name: "Standard Business Card",
       description: "300gsm Standard paper Business card",
-      production_days: 3,
       image_url: "https://images.unsplash.com/photo-1589047913349-2e6fb543b593"
     },
     create: {
@@ -315,7 +314,6 @@ async function main() {
       category_id: productCat.id,
       name: "Standard Business Card",
       description: "300gsm Standard paper Business card",
-      production_days: 3,
       image_url: "https://images.unsplash.com/photo-1589047913349-2e6fb543b593"
     }
   });

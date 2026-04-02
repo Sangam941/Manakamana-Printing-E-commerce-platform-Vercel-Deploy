@@ -1,7 +1,5 @@
-import { PrismaClient } from "@prisma/client";
+import prisma from "../../connect";
 import { getVariantPricingCombination, calculateOrderAmount, normalizeSelectedOptions } from "../catalog/product-pricing.service";
-
-const prisma = new PrismaClient();
 
 const ORDER_STATUS_FLOW: Record<string, string | null> = {
   ORDER_PLACED: "ORDER_ACCEPTED",
@@ -10,6 +8,16 @@ const ORDER_STATUS_FLOW: Record<string, string | null> = {
   ORDER_DISPATCHED: "ORDER_DELIVERED",
   ORDER_DELIVERED: null,
 };
+
+const addOrderPresentationFields = <T extends {
+  variant?: { variant_name?: string | null; product?: { name?: string | null } | null } | null;
+  idcard_detail?: { idcardProduct?: { name?: string | null } | null } | null;
+}>(order: T) => ({
+  ...order,
+  order_type: order.idcard_detail ? "ID_CARD" : "CATALOG",
+  product_name: order.idcard_detail?.idcardProduct?.name ?? order.variant?.product?.name ?? null,
+  variant_name: order.variant?.variant_name ?? null,
+});
 
 // createProductOrderService: Core logic for placing a new order, resolving pricing and saving configurations
 export const createProductOrderService = async (data: {
@@ -122,7 +130,7 @@ export const createProductOrderService = async (data: {
 
 // getOrderDetailsService: Retrieves full details of a specific order including variant and config info
 export const getOrderDetailsService = async (orderId: string) => {
-  return await prisma.order.findUnique({
+  const order = await prisma.order.findUnique({
     where: { id: orderId },
     include: {
       approvedDesign: {
@@ -137,14 +145,21 @@ export const getOrderDetailsService = async (orderId: string) => {
           product: true,
         },
       },
+      idcard_detail: {
+        include: {
+          idcardProduct: true,
+        },
+      },
       configurations: true,
     },
   });
+
+  return order ? addOrderPresentationFields(order) : null;
 };
 
 // getClientOrdersService: Lists all orders placed by a specific client
 export const getClientOrdersService = async (userId: string) => {
-  return await prisma.order.findMany({
+  const orders = await prisma.order.findMany({
     where: { user_id: userId },
     include: {
       approvedDesign: {
@@ -157,15 +172,26 @@ export const getClientOrdersService = async (userId: string) => {
           variant_name: true,
           product: { select: { name: true } }
         }
-      }
+      },
+      idcard_detail: {
+        include: {
+          idcardProduct: {
+            select: {
+              name: true,
+            },
+          },
+        },
+      },
     },
     orderBy: { created_at: "desc" },
   });
+
+  return orders.map((order) => addOrderPresentationFields(order));
 };
 
 // getAllOrdersService: Provides an administrative overview of every order in the system
 export const getAllOrdersService = async () => {
-  return await prisma.order.findMany({
+  const orders = await prisma.order.findMany({
     include: {
       client: { select: { business_name: true, phone_number: true } },
       approvedDesign: {
@@ -178,10 +204,21 @@ export const getAllOrdersService = async () => {
           variant_name: true,
           product: { select: { name: true } }
         }
-      }
+      },
+      idcard_detail: {
+        include: {
+          idcardProduct: {
+            select: {
+              name: true,
+            },
+          },
+        },
+      },
     },
     orderBy: { created_at: "desc" },
   });
+
+  return orders.map((order) => addOrderPresentationFields(order));
 };
 
 // updateOrderStatusService: Logic to transition an order status (e.g., from PLACED to PROCESSING)

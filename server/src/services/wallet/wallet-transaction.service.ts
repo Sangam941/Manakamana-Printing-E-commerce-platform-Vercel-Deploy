@@ -1,6 +1,33 @@
 import prisma from "../../connect";
 import { getOrCreateWalletService } from "./wallet-account.service";
 
+const getOrderDisplayDetails = (order: {
+  variant?: { variant_name: string; product: { name: string } } | null;
+  idcard_detail?: { idcardProduct: { name: string } } | null;
+}) => {
+  if (order.variant?.product) {
+    return {
+      productName: order.variant.product.name,
+      variantName: order.variant.variant_name,
+      descriptionLabel: `${order.variant.product.name} (${order.variant.variant_name})`,
+    };
+  }
+
+  if (order.idcard_detail?.idcardProduct) {
+    return {
+      productName: order.idcard_detail.idcardProduct.name,
+      variantName: null,
+      descriptionLabel: order.idcard_detail.idcardProduct.name,
+    };
+  }
+
+  return {
+    productName: "order",
+    variantName: null,
+    descriptionLabel: "order",
+  };
+};
+
 // getClientTransactionsService: Paginated retrieval of the authenticated client's financial transaction history
 export const getClientTransactionsService = async (params: {
   clientId: string;
@@ -107,13 +134,17 @@ export const deductForOrderService = async (orderId: string, clientId: string) =
     // 1. Fetch order
     const order = await tx.order.findUnique({ 
       where: { id: orderId },
-      include: { variant: { include: { product: true } } }
+      include: {
+        variant: { include: { product: true } },
+        idcard_detail: { include: { idcardProduct: true } },
+      },
     });
     if (!order) throw new Error("Order not found");
     if (order.user_id !== clientId) throw new Error("Order does not belong to you");
     if (order.payment_status === "PAID" || order.walletTransactionId) throw new Error("Order already paid");
     
     const orderAmount = Number(order.final_amount);
+    const orderDisplay = getOrderDisplayDetails(order);
 
     // 2. Get wallet with lock
     const wallet = await tx.walletAccount.findUnique({
@@ -140,7 +171,7 @@ export const deductForOrderService = async (orderId: string, clientId: string) =
         currency: wallet.currency,
         balanceBefore: currentBalance,
         balanceAfter: newBalance,
-        description: `Payment for order: ${order.variant.product.name} (${order.variant.variant_name})`,
+        description: `Payment for order: ${orderDisplay.descriptionLabel}`,
       },
     });
 
@@ -167,7 +198,7 @@ export const deductForOrderService = async (orderId: string, clientId: string) =
         clientId,
         type: "wallet_debited_for_order",
         title: "Wallet payment applied",
-        message: `NPR ${orderAmount} deducted from wallet for ${order.variant.product.name}`,
+        message: `NPR ${orderAmount} deducted from wallet for ${orderDisplay.productName}`,
         referenceId: orderId,
       },
     });

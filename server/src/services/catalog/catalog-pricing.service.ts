@@ -70,14 +70,12 @@ export const listActiveProductsService = async () => {
       product_code: true,
       name: true,
       description: true,
-      production_days: true,
     },
     orderBy: { created_at: "asc" },
   });
 
   return products.map((product) => ({
     ...product,
-    production_days: Number(product.production_days),
   }));
 };
 

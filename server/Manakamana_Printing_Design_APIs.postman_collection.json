@@ -603,7 +603,7 @@
                 ],
                 "body": {
                   "mode": "raw",
-                  "raw": "{\n  \"product_code\": \"PRD001\",\n  \"name\": \"Product Name\",\n  \"description\": \"Description\",\n  \"production_days\": 3\n}"
+                  "raw": "{\n  \"product_code\": \"PRD001\",\n  \"name\": \"Product Name\",\n  \"description\": \"Description\"\n}"
                 },
                 "url": { "raw": "{{baseUrl}}/admin/products", "host": ["{{baseUrl}}"], "path": ["admin", "products"] }
               }
@@ -896,6 +896,124 @@
                   "raw": "{\n  \"name\": \"Service Name\",\n  \"description\": \"Description\",\n  \"basePrice\": 50.00\n}"
                 },
                 "url": { "raw": "{{baseUrl}}/admin/services", "host": ["{{baseUrl}}"], "path": ["admin", "services"] }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "ID card",
+      "item": [
+        {
+          "name": "Client Auth",
+          "item": [
+            {
+              "name": "Login Client",
+              "request": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"phone_number\": \"9800000000\",\n  \"password\": \"password123\"\n}"
+                },
+                "url": { "raw": "{{baseUrl}}/auth/login", "host": ["{{baseUrl}}"], "path": ["auth", "login"] }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Admin Auth",
+          "item": [
+            {
+              "name": "Login Admin",
+              "request": {
+                "method": "POST",
+                "header": [{ "key": "Content-Type", "value": "application/json" }],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"email\": \"admin@gmail.com\",\n  \"password\": \"admin\"\n}"
+                },
+                "url": { "raw": "{{baseUrl}}/admin/auth/login", "host": ["{{baseUrl}}"], "path": ["admin", "auth", "login"] }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Order Processing",
+          "item": [
+            {
+              "name": "Admin: Create ID Card Product",
+              "request": {
+                "method": "POST",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{adminToken}}" },
+                  { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"product_code\": \"ID-001\",\n  \"name\": \"PVC ID Card\",\n  \"description\": \"High quality PVC ID card\",\n  \"base_price\": 150,\n  \"discount_type\": \"percentage\",\n  \"discount_value\": 10,\n  \"image_url\": \"https://example.com/idcard.png\"\n}"
+                },
+                "url": { "raw": "{{baseUrl}}/admin/idcards/products", "host": ["{{baseUrl}}"], "path": ["admin", "idcards", "products"] }
+              }
+            },
+            {
+              "name": "Client: Create ID Card Order",
+              "request": {
+                "method": "POST",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{clientToken}}" },
+                  { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"idcardProductId\": \"\",\n  \"quantity\": 10,\n  \"printing_side\": \"double\",\n  \"orientation\": \"landscape\",\n  \"strap_color\": \"blue\",\n  \"strap_text\": \"Company Name\",\n  \"notes\": \"Test order\"\n}"
+                },
+                "url": { "raw": "{{baseUrl}}/idcards/orders", "host": ["{{baseUrl}}"], "path": ["idcards", "orders"] }
+              }
+            },
+            {
+              "name": "Client: List ID Card Products",
+              "request": {
+                "method": "GET",
+                "header": [{ "key": "Authorization", "value": "Bearer {{clientToken}}" }],
+                "url": { "raw": "{{baseUrl}}/idcards/products", "host": ["{{baseUrl}}"], "path": ["idcards", "products"] }
+              }
+            },
+            {
+              "name": "Admin: List ID Card Orders",
+              "request": {
+                "method": "GET",
+                "header": [{ "key": "Authorization", "value": "Bearer {{adminToken}}" }],
+                "url": { "raw": "{{baseUrl}}/admin/idcards/orders", "host": ["{{baseUrl}}"], "path": ["admin", "idcards", "orders"] }
+              }
+            }
+          ]
+        },
+        {
+          "name": "Wallet related",
+          "item": [
+            {
+              "name": "Get Balance",
+              "request": {
+                "method": "GET",
+                "header": [{ "key": "Authorization", "value": "Bearer {{clientToken}}" }],
+                "url": { "raw": "{{baseUrl}}/wallet/balance", "host": ["{{baseUrl}}"], "path": ["wallet", "balance"] }
+              }
+            },
+            {
+              "name": "Confirm Wallet Payment",
+              "request": {
+                "method": "POST",
+                "header": [
+                  { "key": "Authorization", "value": "Bearer {{clientToken}}" },
+                  { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n  \"useWallet\": true\n}"
+                },
+                "url": { "raw": "{{baseUrl}}/orders/:orderId/confirm-wallet-payment", "host": ["{{baseUrl}}"], "path": ["orders", ":orderId", "confirm-wallet-payment"], "variable": [{ "key": "orderId", "value": "" }] }
               }
             }
           ]

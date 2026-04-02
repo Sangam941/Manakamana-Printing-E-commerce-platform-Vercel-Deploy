@@ -9,6 +9,7 @@
     "start": "node dist/index.js",
     "prisma:generate": "prisma generate",
     "seed:run": "tsx prisma/seed.ts",
+    "seed:idcard": "tsx prisma/id-card-seed.ts",
     "seed": "prisma migrate reset --force --skip-seed --skip-generate && npm run seed:run",
     "swagger": "tsx src/swagger.ts",
     "postinstall": "npm run prisma:generate"
