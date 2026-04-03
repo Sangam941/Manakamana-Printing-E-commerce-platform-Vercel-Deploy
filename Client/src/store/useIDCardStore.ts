@@ -6,7 +6,6 @@ import {
     IDCardProduct,
     IDCardPriceResponse,
     CreateIDCardOrderRequest,
-    CreateIDCardOrderResponse,
     CreateIDCardOrderResponseData,
     IDCardOrder,
     fetchAllOrders, // <-- Optionally import an order type if you have one (update as per your API)
@@ -23,7 +22,7 @@ interface IDCardState {
     error: string | null;
 
     // New for order creation
-    orderResponse: CreateIDCardOrderResponse | null;
+    orderResponse: CreateIDCardOrderResponseData | null;
 
     // Add for fetch all my orders
     myOrders: IDCardOrder[]; 

@@ -1,5 +1,5 @@
+import type { TemplateCategory } from "@/store/useTemplateStore";
 import api from "./axios";
-import type { Template } from "@/types";
 
 // Fetch all template categories
 export const fetchTemplateCategories = async () => {
@@ -13,10 +13,10 @@ export const fetchTemplateCategories = async () => {
 };
 
 // Fetch all templates
-export const fetchAllTemplates = async (): Promise<Template[]> => {
+export const fetchAllTemplates = async (): Promise<TemplateCategory[]> => {
     try {
         const response = await api.get('/v1/templates');
-        // console.log(response.data.data.items)
+        console.log(response.data.data.items)
         return response.data.data.items;
     } catch (error) {
         throw error;

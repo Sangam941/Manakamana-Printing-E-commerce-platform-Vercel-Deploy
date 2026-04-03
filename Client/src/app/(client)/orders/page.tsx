@@ -148,7 +148,14 @@ export default function OrdersPage() {
                                             </span>
                                         </td>
                                         <td className="p-4 text-[#64748b] text-[0.82rem]">
-                                            {order.created_at ? formatDate(order.created_at) : ''}
+                                            {order.created_at ? (
+                                                <>
+                                                    <div>{new Date(order.created_at).toLocaleDateString()}</div>
+                                                    <div className="text-xs text-[#94a3b8]">
+                                                        {new Date(order.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                                    </div>
+                                                </>
+                                            ) : ''}
                                         </td>
                                     </tr>
                                 ))

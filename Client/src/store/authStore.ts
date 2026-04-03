@@ -16,9 +16,10 @@ export interface AuthStoreState {
     isAuthenticated: boolean;
     token: string | null;
     loading: boolean;
+    isHydrated: boolean;
     login: (email: string, password: string) => Promise<void>;
     logout: () => void;
-    checkAuth: () => boolean;
+    setHasHydrated: (state: boolean) => void;
 }
 
 export const useAuthStore = create<AuthStoreState>()(
@@ -28,6 +29,11 @@ export const useAuthStore = create<AuthStoreState>()(
             isAuthenticated: false,
             token: null,
             loading: false,
+            isHydrated: false,
+
+            setHasHydrated: (state: boolean) => {
+                set({ isHydrated: state });
+            },
 
             login: async (email: string, password: string) => {
                 set({ loading: true });
@@ -66,37 +72,12 @@ export const useAuthStore = create<AuthStoreState>()(
                 localStorage.removeItem("authUser");
                 toast.success("Logged out successfully!");
             },
-
-            checkAuth: () => {
-                const stored = localStorage.getItem("authUser");
-                if (stored) {
-                    try {
-                        const userObj = JSON.parse(stored);
-                        set({
-                            user: userObj,
-                            isAuthenticated: true,
-                            token: userObj.token ?? null,
-                        });
-                        return true;
-                    } catch {
-                        set({
-                            user: null,
-                            isAuthenticated: false,
-                            token: null,
-                        });
-                        return false;
-                    }
-                }
-                set({
-                    user: null,
-                    isAuthenticated: false,
-                    token: null,
-                });
-                return false;
-            },
         }),
         {
             name: "auth-storage",
+            onRehydrateStorage: () => (state) => {
+                state?.setHasHydrated(true);
+            },
         }
     )
 );

@@ -1,4 +1,4 @@
-import { Service, Template, Order } from "@/types";
+import { Service, Order } from "@/types";
 
 export const SERVICES: Service[] = [
 
@@ -39,57 +39,6 @@ export const TEMPLATE_CATEGORIES = [
     "Envelopes",
     "ID Cards",
     "Garment Tags",
-];
-
-export const TEMPLATES: Template[] = [
-    {
-        id: "t1",
-        name: "Modern Business Card 01",
-        category: "Visiting Cards",
-        image: "/images/Modern Business Card 01.avif",
-    },
-    {
-        id: "t2",
-        name: "Modern Business Card 02",
-        category: "Visiting Cards",
-        image: "/images/Modern Business Card 02.avif",
-    },
-    {
-        id: "t3",
-        name: "Classic Business Card",
-        category: "Visiting Cards",
-        image: "/images/Classic Business Card.avif",
-    },
-    {
-        id: "t4",
-        name: "Corporate Letterhead 01",
-        category: "Letterheads",
-        image: "/images/Corporate Letterhead 01.avif",
-    },
-    {
-        id: "t5",
-        name: "Standard Envelope",
-        category: "Envelopes",
-        image: "/images/Standard Envelope.avif",
-    },
-    {
-        id: "t6",
-        name: "Business Envelope",
-        category: "Envelopes",
-        image: "/images/Business Envelope.avif",
-    },
-    {
-        id: "t7",
-        name: "Employee ID Card",
-        category: "ID Cards",
-        image: "/images/Employee ID Card.avif",
-    },
-    {
-        id: "t8",
-        name: "Event ID Card",
-        category: "ID Cards",
-        image: "/images/Event ID Card.avif",
-    }
 ];
 
 export const PAPER_TYPES = [

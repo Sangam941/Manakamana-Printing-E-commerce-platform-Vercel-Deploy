@@ -1,10 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import type { Template } from "@/types";
 import { fetchAllTemplates, fetchTemplateCategories } from "@/api/templates";
-
-// Example API imports -- replace with your actual API functions
-// import { fetchTemplateCategories, fetchAllTemplates, fetchTemplateById } from "@/api/template";
 
 export interface TemplateCategory {
     id: string;
@@ -12,7 +8,8 @@ export interface TemplateCategory {
     slug: string;
 }
 
-export interface TemplateWithCategory extends Template {
+export interface TemplateWithCategory {
+    id: string;
     title?: string;
     description?: string;
     categoryId: string;
@@ -23,8 +20,8 @@ export interface TemplateWithCategory extends Template {
 
 export interface TemplateStoreState {
     category: TemplateCategory[];
-    templates: Template[];
-    selectedTemplate: Template | null;
+    templates: TemplateWithCategory[];
+    selectedTemplate: TemplateWithCategory | null;
     loading: boolean;
     error: string | null;
     getCategories: () => Promise<void>;
@@ -57,7 +54,7 @@ export const useTemplateStore = create<TemplateStoreState>()(
                 set({ loading: true, error: null });
                 try {
                     const data = await fetchAllTemplates()
-                    set({ templates: Array.isArray(data) ? data : [], error: null });
+                    set({ templates: Array.isArray(data) ? (data as unknown as TemplateWithCategory[]) : [], error: null });
                 } catch (error: any) {
                     set({ error: error?.message || "Failed to fetch templates" });
                 } finally {

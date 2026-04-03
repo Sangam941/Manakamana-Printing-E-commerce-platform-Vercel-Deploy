@@ -150,12 +150,13 @@ export default function CreateIdCardOrder() {
                 notify.error("Order created but missing order ID. Please contact support.");
                 return;
             }
+            console.log(order.id);
             await confirmWalletPayment(order.id)
             setSubmitted(true);
             notify.whatsapp("Order placed! Admin will confirm via Dashboard.");
             // setTimeout(() => sendWhatsApp(message), 800);
         } catch (error) {
-            notify.error("Failed to place order. Please try again.");
+            // notify.error("Failed to place order. Please try again.");
         }
     };
 

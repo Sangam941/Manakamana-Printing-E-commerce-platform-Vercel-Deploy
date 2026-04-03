@@ -1,10 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useAuthStore } from "@/store/authStore";
 import { notify } from "@/utils/notifications";
-import { sendWhatsApp, buildCustomDesignMessage } from "@/utils/whatsapp";
-import { SERVICES } from "@/constants";
 import { FiUploadCloud, FiGrid, FiEdit3, FiChevronRight } from "react-icons/fi";
 import Image from "next/image";
 import { useDesignStore } from "@/store/designStore";
@@ -34,7 +31,6 @@ type Tab = "free" | "custom";
 export default function TemplatesPage() {
     const { getCategories, getAllTemplates, templates, category } = useTemplateStore()
     const { submitDesign } = useDesignStore();
-    const { user } = useAuthStore();
     const [activeTab, setActiveTab] = useState<Tab>("free");
     const [activeCategory, setActiveCategory] = useState("All");
     const [templateId, setTemplateId] = useState('')
@@ -98,7 +94,6 @@ export default function TemplatesPage() {
 
         // Try to copy image to clipboard so user can paste in WhatsApp
         try {
-            console.log(customDesignFile)
             const formData = new FormData();
             formData.append("file", customDesignFile);
             formData.append("templateId", templateId);
@@ -106,6 +101,7 @@ export default function TemplatesPage() {
 
             // Send the FormData to the submitDesign function
             await submitDesign(formData);
+            notify.success("Design submitted successfully");
 
             // Clear/reset form data after successful submit
             setCustomDesignFile(null);
@@ -114,21 +110,23 @@ export default function TemplatesPage() {
             setCustomDesignTitle("");
             setCustomDesignType("");
             
-            if (navigator.clipboard && window.ClipboardItem) {
-                const arrayBuffer = await customDesignFile.arrayBuffer();
-                const clipboardItem = new window.ClipboardItem({
-                    [customDesignFile.type]: new Blob([arrayBuffer], { type: customDesignFile.type }),
-                });
-                await navigator.clipboard.write([clipboardItem]);
-                notify.success("✅ Image copied to clipboard! Paste it (Ctrl+V) in the WhatsApp chat.");
-            } else {
-                throw new Error("Clipboard API not available");
-            }
+            // if (navigator.clipboard && window.ClipboardItem) {
+            //     const arrayBuffer = await customDesignFile.arrayBuffer();
+            //     const clipboardItem = new window.ClipboardItem({
+            //         [customDesignFile.type]: new Blob([arrayBuffer], { type: customDesignFile.type }),
+            //     });
+            //     await navigator.clipboard.write([clipboardItem]);
+            //     notify.success("✅ Image copied to clipboard! Paste it (Ctrl+V) in the WhatsApp chat.");
+            // } else {
+            //     throw new Error("Clipboard API not available");
+            // }
         } catch (err) {
             // Clipboard API may be blocked — fall back to instructions
-            notify.whatsapp("WhatsApp will open now. Please manually attach your design image in the chat.");
+            // notify.whatsapp("WhatsApp will open now. Please manually attach your design image in the chat.");
         }
-
+        finally{
+            setIsSending(false);
+        }
         // const message = buildCustomDesignMessage({
         //     clientId: user?.clientId || "N/A",
         //     designType: customDesignType,
@@ -241,7 +239,7 @@ export default function TemplatesPage() {
                             {/* Category Filter */}
                             <div className="flex gap-2 flex-wrap mb-6">
                                 {categories.map((cat, idx) => {
-                                    const isActive = activeCategory === cat.name;
+                                    const isActive = activeCategory === (typeof cat === "object" && "name" in cat ? cat.name : String(cat));
                                     return (
                                         <button
                                             key={idx}
@@ -251,7 +249,7 @@ export default function TemplatesPage() {
                                                 : "border-[#e2e8f0] bg-white text-[#475569] hover:bg-gray-50"
                                                 }`}
                                         >
-                                            {typeof cat === "object" && "name" in cat ? cat.name : String(cat)}
+                                            {typeof cat === "object" && "name" in cat ? String(cat.name) : String(cat)}
                                         </button>
                                     );
                                 })}
@@ -261,23 +259,23 @@ export default function TemplatesPage() {
                             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-5">
                                 {filtered.map((template) => (
                                     <div key={template.id} className="card overflow-hidden">
-                                        <div className={`h-[110px] sm:h-[130px] ${getCategoryTheme(template.category)} flex flex-col items-center justify-center gap-2 relative overflow-hidden cursor-pointer`}>
+                                        <div className={`h-[110px] sm:h-[130px] ${getCategoryTheme(template?.category?.name || '')} flex flex-col items-center justify-center gap-2 relative overflow-hidden cursor-pointer`}>
                                             {template?.fileUrl ? (
-                                                <Image src={template?.fileUrl} alt={template.title} fill className="object-cover" />
+                                                <Image src={template?.fileUrl || ''} alt={template.title || ''} fill className="object-cover" />
                                             ) : (
                                                 <>
-                                                    <span className="text-[2rem] sm:text-[2.2rem]">{categoryIcons[template.category] || "📄"}</span>
+                                                    <span className="text-[2rem] sm:text-[2.2rem]">{categoryIcons[template?.category?.name || ''] || "📄"}</span>
                                                     <span className="text-[0.6rem] bg-black/[0.06] px-2 py-0.5 rounded font-semibold text-[#475569]">TEMPLATE</span>
                                                 </>
                                             )}
                                         </div>
                                         <div className="p-2.5 sm:p-3.5">
-                                            <h3 className="font-bold text-[0.83rem] text-[#0f172a] mb-1">{template.name}</h3>
+                                            <h3 className="font-bold text-[0.83rem] text-[#0f172a] mb-1">{template.title}</h3>
                                             <p className="text-[0.68rem] text-[#e91e8c] font-semibold mb-3">Free Design Available</p>
                                             <button
                                                 className="btn-primary w-full py-1.5 px-2 text-[0.7rem] font-bold"
-                                                onClick={() => template.image
-                                                    ? handleDownload(template.image, template.name)
+                                                onClick={() => template.fileUrl
+                                                    ? handleDownload(template.fileUrl || '', template.title || '')
                                                     : notify.error("No image available to download.")
                                                 }
                                             >
@@ -298,7 +296,7 @@ export default function TemplatesPage() {
                                     onClick={() => setActiveTab("custom")}
                                     className="btn-primary py-2 px-5 text-[0.82rem] whitespace-nowrap shrink-0"
                                 >
-                                    🎨 Submit Custom Design →
+                                    Submit Custom Design →
                                 </button>
                             </div>
                         </div>

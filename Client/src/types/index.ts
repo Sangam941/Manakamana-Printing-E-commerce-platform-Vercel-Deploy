@@ -54,14 +54,6 @@ export interface Service {
   createdAt?: string;
 }
 
-export interface Template {
-  id: string;
-  name: string;
-  category: string;
-  previewUrl?: string;
-  downloadUrl?: string;
-  image?: string;
-}
 
 export interface DashboardStats {
   totalOrders: number;

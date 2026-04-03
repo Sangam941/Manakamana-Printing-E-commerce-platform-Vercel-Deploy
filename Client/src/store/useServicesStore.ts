@@ -26,7 +26,7 @@ export const useServicesStore = create<ServicesStore>((set) => ({
     try {
       const data = await fetchAllServices();
       set({
-        services: Array.isArray(data) ? data : [],
+        services: Array.isArray(data) ? (data as unknown as Service[]) : [],
       });
     } catch (error: any) {
       set({ error: error?.message || "Unknown error", loading: false });

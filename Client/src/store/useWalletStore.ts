@@ -22,7 +22,7 @@ export interface TopupRequest {
   approvedAmount: number | null;
   paymentMethod: "BANK_TRANSFER"; // extend with union types if there are more methods in the future
   status: "PENDING_REVIEW" | "APPROVED" | "REJECTED";
-  submittedAt?: string;
+  submittedAt: string;
   reviewedAt?: string | null;
   rejectionReason: string | null;
 }
@@ -150,10 +150,8 @@ export const useWalletStore = create<WalletStoreState>()(
         set({ loading: true, error: null });
         try {
           const result = await confirmWalletPaymentApi(orderId);
-          // Optionally update the wallet in store to match the new balance after confirmation
+          // Optionally update the wallet in  store to match the new balance after confirmation
           await get().fetchWallet();
-          // Optionally update transactions (comment out if not needed)
-          await get().fetchWalletTransactions();
          
         } catch (error: any) {
           set({ error: error?.message || "Failed to confirm wallet payment" });
