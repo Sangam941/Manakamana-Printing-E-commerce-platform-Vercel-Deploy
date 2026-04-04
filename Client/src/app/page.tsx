@@ -86,11 +86,11 @@ export default function HomePage() {
 
   useEffect(() => {
     fetchProfile();
-  }, [profile]);
+  }, []);
 
   useEffect(() => {
     fetchWallet();
-  }, [wallet]);
+  }, []);
   
   return (
     <>
