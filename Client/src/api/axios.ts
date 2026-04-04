@@ -2,6 +2,7 @@ import axios from "axios";
 
 export const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL || "http://localhost:8005";
 
+console.log(baseUrl)
 const api = axios.create({
   baseURL: `${baseUrl}/api`,
   headers: {
