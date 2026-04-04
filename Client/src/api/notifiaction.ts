@@ -4,7 +4,6 @@ import api from "./axios";
 export const getAllNotifications = async () => {
     try {
         const response = await api.get('/v1/wallet/notifications');
-        console.log(response.data.data.items)
         return response.data.data.items || [];
     } catch (error) {
         throw error;

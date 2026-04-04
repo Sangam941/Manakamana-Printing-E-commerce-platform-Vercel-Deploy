@@ -55,7 +55,6 @@ export type IDCardPriceResponse = {
 export async function fetchIDCardProducts(): Promise<IDCardProduct[]> {
   try {
     const response = await api.get("/v1/idcards/products");
-    console.log(response.data.data)
     return response.data.data;
   } catch (error) {
     throw new Error("Failed to fetch ID Card products");
@@ -186,7 +185,6 @@ export async function createIDCardOrder(
 ): Promise<CreateIDCardOrderResponseData> {
   try {
     const response = await api.post("/v1/idcards/orders", orderData);
-    console.log(response.data.data)
     return response.data.data;
   } catch (error) {
     throw new Error("Failed to create ID Card order");
@@ -225,7 +223,6 @@ export interface GetIDCardOrdersResponse {
 export async function fetchAllOrders(): Promise<IDCardOrder[]> {
   try {
     const response = await api.get("/v1/orders");
-    console.log(response.data.data);
     return response.data.data;
   } catch (error) {
     throw new Error("Failed to fetch ID Card orders");

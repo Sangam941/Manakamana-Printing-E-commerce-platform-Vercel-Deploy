@@ -24,8 +24,6 @@ export default function ContactPage() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // For now just log – integrate API/WhatsApp later
-    console.log("Contact form submitted", form);
   };
 
   return (

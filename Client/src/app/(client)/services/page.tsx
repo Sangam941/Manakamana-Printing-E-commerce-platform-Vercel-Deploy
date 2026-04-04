@@ -14,7 +14,6 @@ export default function ServicesPage() {
     //   fetchServices()
     // }, [])
 
-    // console.log(services)
     
     return (
         <div className="py-10 px-10">
