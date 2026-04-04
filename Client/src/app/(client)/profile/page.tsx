@@ -68,10 +68,10 @@ export default function ProfilePage() {
             </div>
 
             {/* Grid for profile card and form */}
-            <div className="flex flex-col gap-7 max-sm:items-center md:grid md:grid-cols-[320px_1fr] md:gap-7 items-start">
+            <div className="flex flex-col gap-7 md:grid md:grid-cols-[320px_1fr] md:gap-7 items-start">
                 {/* Profile Card */}
-                <div className="bg-white rounded-2xl border border-[#e2e8f0] overflow-hidden mb-5 md:mb-0">
-                    <div className="gradient-card p-8 sm:p-10 text-center">
+                <div className="w-full bg-white rounded-2xl border border-[#e2e8f0] overflow-hidden mb-5 md:mb-0">
+                    <div className="gradient-card p-6 sm:p-10 text-center">
                         <div className="w-16 h-16 uppercase sm:w-20 sm:h-20 rounded-full bg-white/20 flex items-center justify-center mx-auto mb-4 text-2xl sm:text-3xl text-white font-extrabold border-[3px] border-white/40">
                             {(profile?.owner_name && profile?.owner_name[0]) || "C"}
                         </div>
