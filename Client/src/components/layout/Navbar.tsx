@@ -14,7 +14,7 @@ import { useNotificationStore } from "@/store/notificationStore";
 
 export default function Navbar() {
     const { fetchWallet, wallet } = useWalletStore()
-    const { profile } = useProfileStore()
+    const { profile, fetchProfile } = useProfileStore()
     const { unreadCount } = useNotificationStore()
     const { isAuthenticated, logout } = useAuthStore();
     const pathname = usePathname();
@@ -38,6 +38,7 @@ export default function Navbar() {
 
     useEffect(() => {
       fetchWallet()
+      fetchProfile()
     }, [])
     
 

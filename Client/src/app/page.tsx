@@ -71,8 +71,6 @@ export default function HomePage() {
 
   //zustand store
   const {isAuthenticated} = useAuthStore()
-  const { fetchProfile, profile} = useProfileStore()
-  const { fetchWallet, wallet } = useWalletStore()
 
   const router = useRouter();
   const [activeSlide, setActiveSlide] = useState(0);
@@ -82,14 +80,6 @@ export default function HomePage() {
       setActiveSlide((prev) => (prev + 1) % heroSlides.length);
     }, 4000);
     return () => clearInterval(interval);
-  }, []);
-
-  useEffect(() => {
-    fetchProfile();
-  }, []);
-
-  useEffect(() => {
-    fetchWallet();
   }, []);
   
   return (
