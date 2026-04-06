@@ -40,7 +40,7 @@ export const useAuthStore = create<AuthStoreState>()(
                 try {
                     const data = await loginUser(email, password);
                     const authUser = {
-                        ...data.user,
+                        ...(data.client ?? data.user),
                     };
 
                     set({
@@ -76,6 +76,10 @@ export const useAuthStore = create<AuthStoreState>()(
         {
             name: "auth-storage",
             onRehydrateStorage: () => (state) => {
+                // Ensure auth state does not remain true without a token.
+                if (!state?.token) {
+                    state?.logout();
+                }
                 state?.setHasHydrated(true);
             },
         }
