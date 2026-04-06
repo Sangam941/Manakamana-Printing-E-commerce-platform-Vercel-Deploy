@@ -59,8 +59,12 @@ api.interceptors.response.use(
     const status = error?.response?.status;
     const requestUrl = error?.config?.url ?? "";
     const isAuthRoute = String(requestUrl).includes("/v1/auth/login");
+    const hasAuthHeader = Boolean(
+      error?.config?.headers?.Authorization || error?.config?.headers?.authorization
+    );
 
-    if (status === 401 && !isAuthRoute && typeof window !== "undefined") {
+    // Only force logout when an authenticated request gets rejected.
+    if (status === 401 && hasAuthHeader && !isAuthRoute && typeof window !== "undefined") {
       localStorage.removeItem("authUser");
       localStorage.removeItem("auth-storage");
       localStorage.removeItem("profile-storage");

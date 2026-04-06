@@ -76,10 +76,6 @@ export const useAuthStore = create<AuthStoreState>()(
         {
             name: "auth-storage",
             onRehydrateStorage: () => (state) => {
-                // Ensure auth state does not remain true without a token.
-                if (!state?.token) {
-                    state?.logout();
-                }
                 state?.setHasHydrated(true);
             },
         }

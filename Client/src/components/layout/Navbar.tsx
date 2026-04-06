@@ -16,7 +16,7 @@ export default function Navbar() {
     const { fetchWallet, wallet } = useWalletStore()
     const { profile, fetchProfile } = useProfileStore()
     const { unreadCount } = useNotificationStore()
-    const { isAuthenticated, logout } = useAuthStore();
+    const { isAuthenticated, isHydrated, logout } = useAuthStore();
     const pathname = usePathname();
     const router = useRouter();
     const [menuOpen, setMenuOpen] = useState(false);
@@ -37,9 +37,10 @@ export default function Navbar() {
     ];
 
     useEffect(() => {
-      fetchWallet()
-      fetchProfile()
-    }, [])
+      if (!isHydrated || !isAuthenticated) return;
+      fetchWallet();
+      fetchProfile();
+    }, [isHydrated, isAuthenticated, fetchWallet, fetchProfile])
     
 
     return (
